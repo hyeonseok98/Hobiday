@@ -12,7 +12,7 @@ const pretendard = localFont({
 
 export const metadata: Metadata = {
   title: "Hobiday",
-  description: "Hobiday",
+  description: "Hobiday Project",
 };
 
 export default function RootLayout({
@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${pretendard.className} antialiased`}>
+      <body className={`${pretendard.className} antialiased max-w-[430px] w-full mx-auto`}>
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>

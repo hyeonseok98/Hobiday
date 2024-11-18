@@ -7,3 +7,4 @@
 - 명령어
   - dev 환경: pnpm dev
   - build: pnpm start
+  - storybook 실행: pnpm storybook
