@@ -35,8 +35,6 @@ export default function RegistrationForm() {
     let accessToken = queryParams.get("access");
     let refreshToken = queryParams.get("refresh");
 
-    console.log(accessToken, refreshToken);
-
     if (accessToken && refreshToken) {
       saveTokens(accessToken, refreshToken);
 
