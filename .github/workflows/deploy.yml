@@ -33,9 +33,9 @@ jobs:
         with:
           source-directory: "output"
 
-          destination-github-username: Hobiday
+          destination-github-username: hyeonseok98
 
-          destination-repository-name: Hobiday-frontend
+          destination-repository-name: Hobiday
 
           user-email: ${{ secrets.EMAIL }}
 
