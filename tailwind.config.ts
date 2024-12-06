@@ -9,8 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#5e50F4",
-        secondary: "#b1f9f3",
+        primary: "#5E50F4",
+        secondary: "#B1F9F3",
         error: "#F45050",
         blue: {
           50: "#E5EFFD",
@@ -18,7 +18,7 @@ const config: Config = {
           200: "#B8B2FA",
           300: "#8C82F7",
           400: "#5E50F4",
-          500: "#473DDB",
+          500: "#4739DB",
           600: "#362CA8",
           700: "#2C24A8",
           800: "#241D70",
@@ -37,6 +37,7 @@ const config: Config = {
           800: "#202021",
           900: "#070708",
         },
+        kakao: "#FEE500",
       },
       fontFamily: {
         pretendard: ["var(--font-pretendard)"],

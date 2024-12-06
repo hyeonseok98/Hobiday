@@ -25,3 +25,49 @@
     }
   }
 }
+
+.logo-container {
+  position: relative;
+  display: inline-block;
+}
+
+.logo-with-shadow {
+  animation: bounce 3s infinite;
+  width: 219px;
+  height: 219px;
+}
+
+.logo-container::after {
+  content: "";
+  position: absolute;
+  bottom: 0px; /* Adjust based on shadow position */
+  left: 10%;
+  transform: translateX(-50%);
+  width: 150px; /* Adjust shadow size */
+  height: 20px;
+  background: radial-gradient(ellipse at 45% center, rgba(58, 48, 141, 0.25), transparent);
+  z-index: 0; /* Ensure it stays behind the logo */
+  animation: bounce-shadow 3s infinite; /* Sync with bounce animation */
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes bounce-shadow {
+  0%,
+  100% {
+    transform: scaleX(0.8) translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scaleX(1) translateY(5px); /* Shadow contracts slightly */
+    opacity: 1;
+  }
+}
