@@ -1,9 +1,8 @@
 import axios from "axios";
-import Link from "next/link";
 
 export default function Policies() {
-  function saveTokenToCookie(accessToken: string, refreshToken: string) {
-    document.cookie = `accessToken=${accessToken}; path=/;`;
+  function saveTokens(accessToken: string, refreshToken: string) {
+    localStorage.setItem("accessToken", accessToken);
     document.cookie = `refreshToken=${refreshToken}; path=/; `;
   }
 
@@ -15,7 +14,7 @@ export default function Policies() {
 
       const { accessToken, refreshToken } = response.data.result;
       if (accessToken && refreshToken) {
-        saveTokenToCookie(accessToken, refreshToken);
+        saveTokens(accessToken, refreshToken);
       }
 
       window.location.href = "/";

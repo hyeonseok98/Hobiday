@@ -4,9 +4,9 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-function saveTokenToCookie(accessToken: string, refreshToken: string) {
+function saveTokens(accessToken: string, refreshToken: string) {
   // 현 단계에서 httpOnly, Secure 넣을 경우 쿠키에서 확인 불가능해 제외
-  document.cookie = `accessToken=${accessToken}; path=/; `;
+  localStorage.setItem("accessToken", accessToken);
   document.cookie = `refreshToken=${refreshToken}; path=/; `;
 }
 
@@ -36,7 +36,7 @@ export default function RegistrationForm() {
     let refreshToken = queryParams.get("refresh");
 
     if (accessToken && refreshToken) {
-      saveTokenToCookie(accessToken, refreshToken);
+      saveTokens(accessToken, refreshToken);
 
       checkRegistration(accessToken)
         .then((data) => {
