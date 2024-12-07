@@ -18,7 +18,6 @@ jobs:
           fetch-depth: 0 # Fetch all history to ensure correct context
           lfs: true # Include Git LFS files
           persist-credentials: false
-          dotfiles: true # Ensure dotfiles are included (e.g., .gitignore)
 
       # Install mustache for processing
       - name: Install mustache (to update the date)

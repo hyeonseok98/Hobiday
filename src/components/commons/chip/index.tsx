@@ -52,7 +52,7 @@ export default function Chip({
 }: ChipProps) {
   return (
     <button className={cn(chipVariants({ state }), className)} onClick={onClick} {...props}>
-      <span>{label}</span>
+      <span className="whitespace-nowrap">{label}</span>
       {isDelete && (
         <div
           onClick={(e) => {

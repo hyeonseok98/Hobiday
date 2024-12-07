@@ -42,6 +42,10 @@ const config: Config = {
       fontFamily: {
         pretendard: ["var(--font-pretendard)"],
       },
+      zIndex: {
+        header: "20",
+        navbar: "10",
+      },
     },
   },
   plugins: [],

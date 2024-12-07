@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${pretendard.className} antialiased max-w-[430px] w-full mx-auto`}>
+      <body className={`${pretendard.className}antialiased max-w-[430px] w-full mx-auto bg-blue-50`}>
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
       <KakaoScript />
