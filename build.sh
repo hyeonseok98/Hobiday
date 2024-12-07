@@ -1,4 +1,4 @@
-#automatic deployment option
+#!/bin/sh
 cd ../
 mkdir output
 cp -R ./Hobiday-frontend/* ./output
