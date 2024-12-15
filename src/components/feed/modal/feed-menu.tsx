@@ -1,6 +1,5 @@
-import Icon from "@/components/commons/icon";
 import DotsVertical from "@/assets/icons/dots-vertical.svg";
-import { useRef, useState } from "react";
+import Icon from "@/components/commons/icon";
 import Modal from "@/components/modal";
 import { useModal } from "@/contexts";
 import useModalStore from "@/stores/useModalStore";

@@ -1,13 +1,13 @@
 "use client";
 
-import { ChangeEvent } from "react";
-import { useRouter } from "next/navigation";
 import cn from "@/lib/tailwind-cn";
+import { useRouter } from "next/navigation";
+import { ChangeEvent } from "react";
 
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import CloseIcon from "@/assets/icons/cancel.svg";
-import { useSearchStore } from "@/stores/useSearchStore";
 import Icon from "@/components/commons/icon";
+import { useSearchStore } from "@/stores/useSearchStore";
 
 export type SearchBarProps = {
   className?: string;

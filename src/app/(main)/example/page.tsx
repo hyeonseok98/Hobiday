@@ -17,10 +17,10 @@ export default function Example() {
 
     if (value === "사용 가능") {
       setStatus("success");
-      setMessage("사용 가능한 닉네임입니다.");
+      setMessage("사용 가능한 닉네임입니다!");
     } else if (value === "중복") {
       setStatus("error");
-      setMessage("이미 사용 중인 닉네임입니다.");
+      setMessage("이미 사용 중인 닉네임입니다!");
     } else {
       setStatus("default");
       setMessage("");

@@ -2,13 +2,13 @@
 
 import Chip from "@/components/commons/chip";
 import Gap from "@/components/commons/gap";
-import Icon from "@/components/commons/icon";
 import { SectionLayout } from "@/components/layout";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
 import Calendar from "@/assets/icons/calendar-month.svg";
 import Location from "@/assets/icons/location.svg";
+import Icon from "@/components/commons/icon";
 
 export const mockPerformanceInfo = {
   performanceId: "PF253944",
