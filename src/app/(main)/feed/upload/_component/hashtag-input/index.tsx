@@ -1,6 +1,6 @@
 "use client";
 
-import Icon from "@/components/commons/icon";
+import Icon from "@/components/commons/icons";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 import Hashtag from "src/assets/icons/hashtag.svg";
 

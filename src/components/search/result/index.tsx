@@ -4,7 +4,7 @@ import Location from "@/assets/icons/location.svg";
 import Search from "@/assets/icons/search.svg";
 import Card from "@/components/card";
 import Chip from "@/components/commons/chip";
-import Icon from "@/components/commons/icon";
+import Icon from "@/components/commons/icons";
 import { SectionLayout } from "@/components/layout";
 import { useSearchStore } from "@/stores/useSearchStore";
 

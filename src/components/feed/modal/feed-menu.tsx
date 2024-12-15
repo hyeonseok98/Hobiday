@@ -1,5 +1,5 @@
 import DotsVertical from "@/assets/icons/dots-vertical.svg";
-import Icon from "@/components/commons/icon";
+import Icon from "@/components/commons/icons";
 import Modal from "@/components/modal";
 import { useModal } from "@/contexts";
 import useModalStore from "@/stores/useModalStore";

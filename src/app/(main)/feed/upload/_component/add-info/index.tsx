@@ -1,4 +1,4 @@
-import Icon from "@/components/commons/icon";
+import Icon from "@/components/commons/icons";
 import Link from "next/link";
 import ArrowBottom from "src/assets/icons/arrow-bottom.svg";
 import PlusCircle from "src/assets/icons/plus-circle.svg";

@@ -6,7 +6,7 @@ import { ChangeEvent } from "react";
 
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import CloseIcon from "@/assets/icons/cancel.svg";
-import Icon from "@/components/commons/icon";
+import Icon from "@/components/commons/icons";
 import { useSearchStore } from "@/stores/useSearchStore";
 
 export type SearchBarProps = {

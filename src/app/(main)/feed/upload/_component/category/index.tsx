@@ -2,7 +2,7 @@
 
 import BottomSheet from "@/components/bottom-sheet";
 import Chip from "@/components/commons/chip";
-import Icon from "@/components/commons/icon";
+import Icon from "@/components/commons/icons";
 import { useBottomSheet } from "@/contexts";
 import { useState } from "react";
 import ArrowForward from "src/assets/icons/arrow-forward.svg";

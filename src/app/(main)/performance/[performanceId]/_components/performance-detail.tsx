@@ -8,7 +8,7 @@ import { useParams } from "next/navigation";
 
 import Calendar from "@/assets/icons/calendar-month.svg";
 import Location from "@/assets/icons/location.svg";
-import Icon from "@/components/commons/icon";
+import Icon from "@/components/commons/icons";
 
 export const mockPerformanceInfo = {
   performanceId: "PF253944",
