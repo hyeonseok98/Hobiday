@@ -45,6 +45,10 @@ export default function NavigationBar({ className }: { className?: string }) {
   const pathname = usePathname();
 
   const activeTab = useMemo(() => {
+    // feed 이하 경로도 feed로 간주
+    if (pathname.startsWith("/feed")) {
+      return "피드";
+    }
     return NAVIGATION_TABS.find((tab) => tab.path === pathname)?.name || "홈";
   }, [pathname]);
 

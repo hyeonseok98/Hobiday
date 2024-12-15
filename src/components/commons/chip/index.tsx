@@ -18,7 +18,7 @@ const chipVariants = cva(
     compoundVariants: [
       {
         state: "hashTag",
-        className: "font-normal text-xs cursor-default", // 해시태그 상태에서 hover와 pointer 제거
+        className: "h-6 px-2 py-0 font-normal text-xs cursor-default", // 해시태그 상태에서 hover와 pointer 제거
       },
     ],
     defaultVariants: {

@@ -1,3 +1,11 @@
-export default function LoadingSpinner() {
-  return <div className="spinner relative w-20 h-20 rounded-full" />;
+export default function LoadingSpinner({ size = 80 }: { size?: number }) {
+  return (
+    <div
+      className="spinner relative rounded-full"
+      style={{
+        width: `${size}px`,
+        height: `${size}px`,
+      }}
+    />
+  );
 }

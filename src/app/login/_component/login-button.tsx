@@ -1,6 +1,7 @@
 "use client";
 
 import KakaoLogo from "@/assets/icons/kakao-logo.svg";
+import Icon from "@/components/commons/icon";
 import { useEffect } from "react";
 
 const redirectUri = `${process.env.NEXT_PUBLIC_SERVER_URL}/oauth2/authorization/kakao`;
@@ -24,7 +25,9 @@ export default function LoginButton() {
     <section className="flex flex-col justify-center items-center mt-28 gap-2">
       <button onClick={kakaoLoginHandler} className="bg-kakao w-[330px] rounded-full font-normal text-black py-3">
         <div className="flex justify-center items-center">
-          <KakaoLogo />
+          <Icon size={24}>
+            <KakaoLogo />
+          </Icon>
           <h2 className="text-sm ml-1">카카오톡으로 5초만에 시작하기</h2>
         </div>
       </button>

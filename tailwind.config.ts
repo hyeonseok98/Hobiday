@@ -1,10 +1,12 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/utils/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -12,6 +14,7 @@ const config: Config = {
         primary: "#5E50F4",
         secondary: "#B1F9F3",
         error: "#F45050",
+        textColor: "#212121",
         blue: {
           50: "#E5EFFD",
           100: "#CBC7FA",
@@ -42,12 +45,35 @@ const config: Config = {
       fontFamily: {
         pretendard: ["var(--font-pretendard)"],
       },
+      spacing: {
+        header: "48px",
+      },
       zIndex: {
         header: "20",
         navbar: "10",
+        bottomSheet: "30",
+        modal: "40",
+      },
+      keyframes: {
+        "fade-in-up": {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        "fade-in-up": "fade-in-up 1s ease-out",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/line-clamp"),
+    plugin(function ({ addBase, theme }) {
+      addBase({
+        ":root": {
+          "--header-height": theme("spacing.header"),
+        },
+      });
+    }),
+  ],
 };
 export default config;

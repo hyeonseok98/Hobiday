@@ -43,7 +43,7 @@ export default function RegistrationForm() {
           if (data) {
             router.push("/");
           } else {
-            router.replace("/registration-form");
+            router.replace("/onboarding");
           }
         })
         .catch(() => {
