@@ -12,7 +12,7 @@ const useFeedRegistration = () => {
   const registerFeed = async (payload: {
     performId: string;
     content: string;
-    category: string;
+    topic: string;
     hashTags: string[];
     fileUrls: string[];
   }) => {
@@ -22,13 +22,13 @@ const useFeedRegistration = () => {
       if (!accessToken) {
         throw new Error("Access token not found");
       }
-
+      console.log(payload);
       const { data } = await axios.post(
         "/api/feeds",
         {
           performId: payload.performId,
           content: payload.content,
-          category: payload.category,
+          topic: payload.topic,
           fileUrls: payload.fileUrls,
           hashTags: payload.hashTags,
         },
