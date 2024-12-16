@@ -1,12 +1,12 @@
 "use client";
 
 import Icon from "@/components/commons/icons";
+import useUploadTextStore from "@/stores/useUploadTextStore";
 import Image from "next/image";
-import { useState } from "react";
 import PlusCircle from "src/assets/icons/plus-circle.svg";
 
 export default function ImageUploader() {
-  const [photos, setPhotos] = useState<File[]>([]);
+  const { photos, setPhotos } = useUploadTextStore();
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
@@ -17,6 +17,8 @@ export default function ImageUploader() {
         return;
       }
       setPhotos((prevPhotos) => [...prevPhotos, ...selectedFiles]);
+      console.log(photos);
+      console.log(setPhotos);
     }
   }
 

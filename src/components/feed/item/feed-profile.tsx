@@ -22,13 +22,13 @@ export default function FeedProfile({ profileImageUrl, profileName, isFollowing 
         />
         <div className="font-semibold mx-2">{profileName}</div>
       </div>
-      {isFollowing ? (
+      {/* {isFollowing ? (
         <FeedMenuModal />
       ) : (
         <button className="text-sm font-semibold hover:underline mr-4 bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
           팔로우
         </button>
-      )}
+      )} */}
     </div>
   );
 }

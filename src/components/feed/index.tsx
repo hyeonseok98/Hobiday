@@ -6,11 +6,7 @@ import { useLatestFeedsQuery, usePopularFeedsQuery } from "@/hooks/feed/use-feed
 import { useState } from "react";
 import LoadingSpinner from "../commons/spinner";
 
-interface FeedPageListProps {
-  loggedInProfileId: number;
-}
-
-export default function FeedPageList({ loggedInProfileId }: FeedPageListProps) {
+export default function FeedPageList() {
   const [filter, setFilter] = useState("latest");
 
   const {
@@ -84,7 +80,7 @@ export default function FeedPageList({ loggedInProfileId }: FeedPageListProps) {
             <FeedItem.Profile
               profileImageUrl={feed.profileImageUrl || ""}
               profileName={feed.profileName}
-              isFollowing={checkIsFollowing(feed.profileId, loggedInProfileId)}
+              isFollowing={checkIsFollowing(feed.profileId, 5)}
             />
             <FeedItem.Image feedFiles={feed.feedFiles} />
             <FeedItem.Content contents={feed.contents} />

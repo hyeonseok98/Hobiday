@@ -48,4 +48,29 @@ export interface PerformanceDetail {
   reservationUrl: string;
 }
 
-export type PerformancesDetailResponse = BaseResponse<PerformanceDetail[]>;
+export type PerformanceDetailResponse = BaseResponse<PerformanceDetail[]>;
+
+export interface PerformanceDetailAll {
+  performId: string;
+  performName: string;
+  startDate: string;
+  endDate: string;
+  genreName: string;
+  performState: string;
+  placeName: string;
+  openRun: boolean;
+  area: string;
+  poster: string;
+  likeCount: number;
+  facilityId: string;
+  cast: string;
+  runtime: string;
+  perform: string;
+  ticketPrice: string;
+  storyUrl: string;
+  showtime: string;
+  reservationChannel: string;
+  reservationUrl: string;
+}
+
+export type PerformanceDetailAllResponse = BaseResponse<PerformanceDetailAll>;

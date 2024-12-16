@@ -1,8 +1,9 @@
-"use client";
-
 import Button from "@/components/commons/button";
 import Chip from "@/components/commons/chip";
+import Gap from "@/components/commons/gap";
+import StepLayout from "@/components/layout/step-layout";
 import { TAB_CATEGORY } from "@/constants/category";
+import { useOnboardingStore } from "@/stores/use-onboarding.store";
 import { useState } from "react";
 
 type CategoryStepProps = {
@@ -10,16 +11,17 @@ type CategoryStepProps = {
 };
 
 export default function CategoryStep({ onNext }: CategoryStepProps) {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const { categories, setCategories } = useOnboardingStore();
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(categories);
 
-  const categories = TAB_CATEGORY.slice(1); // "전체"를 제외한 카테고리
-  const isAllSelected = selectedCategories.length === categories.length;
+  const categoryList = TAB_CATEGORY.slice(1); // "전체"를 제외한 카테고리
+  const isAllSelected = selectedCategories.length === categoryList.length;
 
   const handleAllClick = () => {
     if (isAllSelected) {
-      setSelectedCategories([]); // 전체 해제
+      setSelectedCategories([]);
     } else {
-      setSelectedCategories(categories.map((category) => category.name)); // 전체 선택
+      setSelectedCategories(categoryList.map((category) => category.name));
     }
   };
 
@@ -29,51 +31,54 @@ export default function CategoryStep({ onNext }: CategoryStepProps) {
     );
   };
 
+  const handleNext = () => {
+    setCategories(selectedCategories);
+    onNext(categories);
+  };
+
   return (
-    <div className="flex flex-col h-[calc(100vh-var(--header-height)-4px)]">
-      {/* 헤더 텍스트 */}
-      <div className="mt-9 px-[23px]">
-        <h1 className="text-[32px] font-semibold leading-snug">
-          선호하는 공연 카테고리를 <br /> 선택하세요.
-        </h1>
-        <h3 className="text-sm text-gray-500 mt-2">선호에 맞는 공연을 추천해드릴게요.</h3>
-      </div>
+    <StepLayout>
+      <StepLayout.Title>
+        선호하는 공연 카테고리를 <br /> 선택하세요.
+      </StepLayout.Title>
 
-      {/* 카테고리 Chip */}
-      <div className="mt-[65px] px-[29px] grid grid-cols-3 gap-x-2 gap-y-4">
-        <Chip
-          label="전체"
-          state={isAllSelected ? "selected" : "default"}
-          onClick={handleAllClick}
-          className="col-span-3 text-center"
-        />
-        {categories.map((category) => (
+      <StepLayout.Content>
+        <h3 className="text-sm text-gray-600 mt-2">선호에 맞는 공연을 추천해드릴게요.</h3>
+        <Gap vertical size={65} className="w-full" />
+        <div className="px-[29px] grid grid-cols-3 gap-x-2 gap-y-4">
           <Chip
-            key={category.id}
-            label={category.name}
-            state={selectedCategories.includes(category.name) ? "selected" : "default"}
-            onClick={() => handleChipClick(category.name)}
+            label="전체"
+            state={isAllSelected ? "selected" : "default"}
+            onClick={handleAllClick}
+            className="col-span-3 text-center"
           />
-        ))}
-      </div>
+          {categoryList.map((category) => (
+            <Chip
+              key={category.id}
+              label={category.name}
+              state={selectedCategories.includes(category.name) ? "selected" : "default"}
+              onClick={() => handleChipClick(category.name)}
+            />
+          ))}
+        </div>
+      </StepLayout.Content>
 
-      {/* 문구 + 버튼 */}
-      <div className="mt-auto px-4 pb-5">
-        <div className="text-center text-sm text-gray-600 mb-5">공연 카테고리는 나중에 다시 수정할 수 있어요!</div>
+      <StepLayout.Footer>
+        <p className="text-center text-sm text-gray-600 mb-5">공연 카테고리는 나중에 다시 수정할 수 있어요!</p>
         <Button
           variant="primary"
           size="lg"
           fullWidth
           onClick={() => {
             if (selectedCategories.length > 0) {
-              onNext(selectedCategories);
+              handleNext();
             }
           }}
-          disabled={selectedCategories.length === 0} // 선택된 카테고리가 없을 때 버튼 비활성화
+          disabled={selectedCategories.length === 0}
         >
           완료
         </Button>
-      </div>
-    </div>
+      </StepLayout.Footer>
+    </StepLayout>
   );
 }

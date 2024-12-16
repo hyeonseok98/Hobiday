@@ -22,7 +22,11 @@ export default function FeedImage({ feedFiles }: ImageCarouselProps) {
           >
             {feedFiles.map((file, index) => (
               <SwiperSlide key={file}>
-                <img src={file} alt={`feed-image-${index}`} className="w-[398px] h-[398px] object-cover" />
+                <img
+                  src={`${process.env.NEXT_PUBLIC_S3_BUCKET_URL}${file}`}
+                  alt={`feed-image-${index}`}
+                  className="w-[398px] h-[398px] object-cover"
+                />
               </SwiperSlide>
             ))}
           </Swiper>

@@ -1,8 +1,10 @@
 import {
   AllPerformancesResponse,
+  PerformanceDetailAllResponse,
+  PerformanceDetailResponse,
   PerformancesByGenreResponse,
-  PerformancesDetailResponse,
 } from "@/types/performance/performance.type";
+import { ServerPerformance } from "@/types/performance/server";
 import { handleApiError } from "@/utils/api-error/error-handler";
 import { ENDPOINTS } from "./end-points";
 import { apiClient } from "./index";
@@ -42,8 +44,36 @@ export const fetchPerformancesByGenre = async (params: { rowStart: string; rowEn
  */
 export const fetchPerformanceById = async (performanceId: string) => {
   try {
-    const response = await apiClient.get<PerformancesDetailResponse>(ENDPOINTS.PERFORMANCES.GET_BY_ID(performanceId));
+    const response = await apiClient.get<PerformanceDetailResponse>(ENDPOINTS.PERFORMANCES.GET_BY_ID(performanceId));
     return response.data;
+  } catch (error) {
+    throw new Error(handleApiError(error));
+  }
+};
+
+/**
+ * @param performId 공연 ID
+ * @returns 공연 기본 및 상세 정보
+ */
+export const fetchPerformanceDetailAll = async (performanceId: string): Promise<PerformanceDetailAllResponse> => {
+  try {
+    const response = await apiClient.get<PerformanceDetailAllResponse>(
+      ENDPOINTS.PERFORMANCES.DETAIL.BY_ID_ALL(performanceId),
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(handleApiError(error));
+  }
+};
+
+/**
+ * @param keyword 검색어
+ * @returns 검색된 공연 목록 (서버 데이터)
+ */
+export const fetchPerformancesByKeyword = async (keyword: string): Promise<ServerPerformance[]> => {
+  try {
+    const response = await apiClient.get<{ result: ServerPerformance[] }>(ENDPOINTS.PERFORMANCES.SEARCH(keyword));
+    return response.data.result;
   } catch (error) {
     throw new Error(handleApiError(error));
   }

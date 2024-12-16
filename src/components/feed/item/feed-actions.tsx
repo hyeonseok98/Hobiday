@@ -4,6 +4,7 @@ import axios from "axios";
 import LikeGradientDefault from "@/utils/like-gradient-default";
 import LikeGradientPressed from "@/utils/like-gradient-pressed";
 import CommentGradient from "@/utils/comment-gradient";
+import { getCookie } from "@/utils/get-refresh-cookie";
 
 type ActionsProps = {
   feedId: number;
@@ -19,11 +20,20 @@ export default function FeedActions({ feedId, likeCount, liked, commentCount }: 
 
   const handleLikeToggle = async () => {
     try {
+      const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = await getCookie("refreshToken");
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
       if (isLiked) {
-        await axios.post(`/api/unlike/${feedId}`);
+        await axios.post(`/api/likes/${feedId}?token=${refreshToken}`, {}, config);
         setLikes(likes - 1);
       } else {
-        await axios.post(`/api/like/${feedId}`);
+        await axios.post(`/api/likes/${feedId}?token=${refreshToken}`, {}, config);
         setLikes(likes + 1);
       }
       setIsLiked(!isLiked);

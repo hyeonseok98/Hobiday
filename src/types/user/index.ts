@@ -4,4 +4,4 @@ export interface CheckNickname {
   profileMessage: string;
 }
 
-export type CheckNicknameResponse = BaseResponse<CheckNickname[]>;
+export type CheckNicknameResponse = BaseResponse<CheckNickname>;

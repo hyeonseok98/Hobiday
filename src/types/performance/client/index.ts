@@ -24,3 +24,34 @@ export interface ClientPerformanceDetails {
   reservationChannel: string;
   reservationUrl: string;
 }
+
+export interface ClientPerformanceDetailAll {
+  performanceId: string;
+  name: string;
+  date: {
+    start: string;
+    end: string;
+  };
+  genre: string;
+  state: string;
+  location: {
+    place: string;
+    area: string;
+  };
+  posterUrl: string;
+  likes: number;
+  facilityId: string;
+  cast: string;
+  runtime: string;
+  description: string;
+  ticket: {
+    price: string;
+    reservation: {
+      channel: string;
+      url: string;
+    };
+  };
+  storyImageUrl: string;
+  showtime: string;
+  openRun: boolean;
+}

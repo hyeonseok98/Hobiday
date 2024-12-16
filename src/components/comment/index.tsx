@@ -58,12 +58,12 @@ export default function CommentCard({ id, contents, profileName, profileImageUrl
       {/* 작성 시간 및 옵션 */}
       <div className="flex items-center mx-9 my-3 text-[10px] text-gray-500">
         <div className="mr-3">{relativeTime}</div>
-        {profileName && (
+        {/* {profileName && (
           <div className="flex space-x-2">
             <button>수정</button>
             <button>삭제</button>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

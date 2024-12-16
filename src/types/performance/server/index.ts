@@ -24,3 +24,26 @@ export interface ServerPerformanceDetails {
   reservationChannel: string; // 예약 채널
   reservationUrl: string; // 예약 사이트
 }
+
+export interface ServerPerformanceDetailAll {
+  performId: string;
+  performName: string;
+  startDate: string;
+  endDate: string;
+  genreName: string;
+  performState: string;
+  placeName: string;
+  openRun: boolean;
+  area: string;
+  poster: string;
+  likeCount: number;
+  facilityId: string;
+  cast: string;
+  runtime: string;
+  perform: string;
+  ticketPrice: string;
+  storyUrl: string;
+  showtime: string;
+  reservationChannel: string;
+  reservationUrl: string;
+}

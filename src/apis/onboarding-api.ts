@@ -11,6 +11,7 @@ import { ENDPOINTS } from "./end-points";
 export const postProfileRegistration = async (
   params: PostProfileRegistrationRequest,
 ): Promise<ProfileRegistrationResponse> => {
+  console.log("요청 데이터:", params);
   try {
     const response = await apiClient.post<ProfileRegistrationResponse>(ENDPOINTS.PROFILES.REGISTRATION, params);
     return response.data;

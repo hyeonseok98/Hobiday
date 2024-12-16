@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "svgr": "svgr --typescript --out-dir src/assets/svgr-icons src/assets/icons"
   },
   "dependencies": {
     "@tailwindcss/line-clamp": "^0.4.4",
@@ -35,6 +36,7 @@
     "@storybook/nextjs": "8.4.4",
     "@storybook/react": "8.4.4",
     "@storybook/test": "8.4.4",
+    "@svgr/cli": "^8.1.0",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^5.60.1",
     "@types/node": "^20.17.6",

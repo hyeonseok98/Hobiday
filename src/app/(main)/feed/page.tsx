@@ -14,11 +14,9 @@ export default function FeedPage() {
     ],
   };
 
-  const loggedInProfileId: number = 5; // 로그인 유저의 profileId 설정
-
   return (
     <MainLayout headerProps={headerProps}>
-      <FeedPageList loggedInProfileId={loggedInProfileId} />
+      <FeedPageList />
     </MainLayout>
   );
 }

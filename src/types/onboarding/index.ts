@@ -2,7 +2,7 @@ import { BaseResponse } from "../base-response";
 
 export interface PostProfileRegistrationRequest {
   profileNickname: string;
-  profileGenres: string[];
+  profileGenre: string[];
 }
 
 export interface PostProfileRegistrationResponse {
@@ -15,4 +15,4 @@ export interface PostProfileRegistrationResponse {
   profileImageUrl: string;
 }
 
-export type ProfileRegistrationResponse = BaseResponse<PostProfileRegistrationResponse[]>;
+export type ProfileRegistrationResponse = BaseResponse<PostProfileRegistrationResponse>;

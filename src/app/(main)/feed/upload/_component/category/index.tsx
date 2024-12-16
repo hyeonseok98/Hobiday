@@ -4,6 +4,7 @@ import BottomSheet from "@/components/bottom-sheet";
 import Chip from "@/components/commons/chip";
 import Icon from "@/components/commons/icons";
 import { useBottomSheet } from "@/contexts";
+import useUploadTextStore from "@/stores/useUploadTextStore";
 import { useState } from "react";
 import ArrowForward from "src/assets/icons/arrow-forward.svg";
 import CommentText from "src/assets/icons/comment-text.svg";
@@ -55,7 +56,7 @@ function SelectCategoryButton({ onConfirm, disabled }: SelectCategoryButtonProps
 }
 
 export default function SelectCategory() {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const { category, setCategory } = useUploadTextStore();
   const [tempCategory, setTempCategory] = useState("");
   const { open, close } = useBottomSheet();
   const categories = ["연극", "무용", "대중무용", "클래식", "국악", "대중음악", "복합", "서커스/마술", "뮤지컬"];
@@ -66,7 +67,7 @@ export default function SelectCategory() {
 
   const handleConfirm = () => {
     if (tempCategory) {
-      setSelectedCategory(tempCategory);
+      setCategory(tempCategory);
       close();
     }
   };
@@ -78,12 +79,12 @@ export default function SelectCategory() {
           <CommentText />
         </Icon>
         <h3 className="text-sm font-semibold">주제선택</h3>
-        {selectedCategory ? (
+        {category ? (
           <Chip
-            label={`${selectedCategory}`}
+            label={`${category}`}
             state="hashTag"
             isDelete={true}
-            onClose={() => setSelectedCategory("")}
+            onClose={() => setCategory("")}
             className="ml-auto text-sm bg-white border border-gray-100"
           />
         ) : (

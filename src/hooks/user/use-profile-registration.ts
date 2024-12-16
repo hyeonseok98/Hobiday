@@ -1,6 +1,7 @@
 import { postProfileRegistration } from "@/apis/onboarding-api";
 import { getCheckNickname } from "@/apis/user-api";
 import { PostProfileRegistrationRequest, ProfileRegistrationResponse } from "@/types/onboarding";
+import { CheckNickname } from "@/types/user";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { PROFILE_KEYS, USER_KEYS } from "../queries";
 
@@ -12,12 +13,15 @@ export const useProfileRegistration = () => {
 };
 
 export const useCheckNickname = (nickname: string) => {
-  return useQuery({
+  return useQuery<CheckNickname | null>({
     queryKey: [USER_KEYS.CHECK_NICKNAME, nickname],
-    queryFn: () => {
-      if (!nickname) return Promise.resolve(null); // 빈 값이면 API 호출 막기
-      return getCheckNickname(nickname);
+    queryFn: async () => {
+      if (!nickname.trim()) {
+        return null;
+      }
+      const data = await getCheckNickname(nickname);
+      return data.result || null;
     },
-    enabled: nickname.trim().length > 0, // 공백을 제거하고 조건 확인
+    enabled: nickname.trim().length > 0,
   });
 };

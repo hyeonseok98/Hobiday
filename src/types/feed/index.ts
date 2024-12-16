@@ -23,6 +23,14 @@ export interface Feed {
   liked: boolean;
 }
 
+export interface UploadFeed {
+  performId: string;
+  content: string;
+  category: string;
+  hashTags: string[];
+  fileUrls: string[];
+}
+
 export interface LikeCount {
   likeCount: number;
   liked: boolean;
