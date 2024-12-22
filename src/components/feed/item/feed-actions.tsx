@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import LikeGradientDefault from "@/utils/like-gradient-default";
-import LikeGradientPressed from "@/utils/like-gradient-pressed";
 import CommentGradient from "@/utils/comment-gradient";
 import { getCookie } from "@/utils/get-refresh-cookie";
+import LikeGradientDefault from "@/utils/like-gradient-default";
+import LikeGradientPressed from "@/utils/like-gradient-pressed";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 type ActionsProps = {
   feedId: number;

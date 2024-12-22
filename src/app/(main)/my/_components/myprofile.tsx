@@ -1,18 +1,17 @@
 "use client";
 
+import { fetchAllFeedById } from "@/apis/feed-api";
 import { getMyProfile } from "@/apis/user-api";
+import LoadingSpinner from "@/components/commons/spinner";
 import { useUserStore } from "@/stores/useUserStore";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import NoFeedSection from "./no-feed";
+import ProfileFeed from "./profile-feed";
+import ProfileGenres from "./profile-genres";
 import ProfileImage from "./profile-image";
 import ProfileName from "./profile-name";
-import ProfileGenres from "./profile-genres";
 import ProfileStats from "./profile-stats";
-import LoadingSpinner from "@/components/commons/spinner";
-import NoFeedSection from "./no-feed";
-import Link from "next/link";
-import ProfileFeed from "./profile-feed";
-import { fetchAllFeedById } from "@/apis/feed-api";
 
 interface FeedData {
   feedId: number;

@@ -1,4 +1,3 @@
-import { create } from "zustand";
 import { handleApiError } from "@/utils/api-error/error-handler";
 import { apiClient } from ".";
 import { ENDPOINTS } from "./end-points";

@@ -1,14 +1,10 @@
 "use client";
 
-import CommentCard from "@/components/comment";
-import { useSearchParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
 import { createComment, fetchComment } from "@/apis/comment-api";
-import { Comment } from "@/types/comment";
-import LoadingSpinner from "@/components/commons/spinner";
+import CommentCard from "@/components/comment";
 import { useUserStore } from "@/stores/useUserStore";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 interface CommentCardProps {
   id: number;

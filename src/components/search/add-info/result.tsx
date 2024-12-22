@@ -4,12 +4,12 @@ import Location from "@/assets/icons/location.svg";
 import Search from "@/assets/icons/search.svg";
 import Icon from "@/components/commons/icons";
 import { SectionLayout } from "@/components/layout";
+import { useSearchPerformances } from "@/hooks";
 import { useSearchStore } from "@/stores/useSearchStore";
 import useUploadTextStore from "@/stores/useUploadTextStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import SearchCard from "../card";
-import { useSearchPerformances } from "@/hooks";
 
 interface SelectPerformanceButtonProps {
   onConfirm: () => void;

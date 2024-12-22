@@ -1,7 +1,7 @@
+import { AllFeedsResponse } from "@/types/feed/feed.type";
 import { handleApiError } from "@/utils/api-error/error-handler";
 import { ENDPOINTS } from "./end-points";
 import { apiClient } from "./index";
-import { AllFeedsResponse } from "@/types/feed/feed.type";
 
 // 최신순 정렬
 export const fetchAllFeedByLatest = async () => {

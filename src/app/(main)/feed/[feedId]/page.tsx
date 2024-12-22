@@ -1,8 +1,7 @@
 import SvgPencil from "@/assets/svgr-icons/Pencil";
-import FeedIdComponent from "./_components";
-import TextLogo from "public/img/logo-text.svg";
 import SvgSearch from "@/assets/svgr-icons/Search";
 import { MainLayout } from "@/components/layout";
+import FeedIdComponent from "./_components";
 
 export default function FeedIdPage({ params }: { params: { feedId: string } }) {
   const feedId = Number(params.feedId);

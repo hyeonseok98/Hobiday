@@ -1,6 +1,6 @@
+import Settings from "@/assets/icons/setting.svg";
 import { MainLayout } from "@/components/layout";
 import TextLogo from "../../../../public/img/logo-text.svg";
-import Settings from "@/assets/icons/setting.svg";
 import MyProfilePage from "./_components/myprofile";
 
 export default function MyPage() {

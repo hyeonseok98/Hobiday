@@ -1,7 +1,7 @@
 import { CheckNicknameResponse } from "@/types/user";
+import { handleApiError } from "@/utils/api-error/error-handler";
 import { apiClient } from ".";
 import { ENDPOINTS } from "./end-points";
-import { handleApiError } from "@/utils/api-error/error-handler";
 
 /**
  * 닉네임 중복 확인 API

@@ -1,4 +1,3 @@
-import TextLogo from "public/img/logo-text.svg";
 import Settings from "@/assets/icons/setting.svg";
 import { MainLayout } from "@/components/layout";
 import ProfileIdInfo from "./_components";

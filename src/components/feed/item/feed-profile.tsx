@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
-import FeedMenuModal from "../modal/feed-menu";
-import { useUserStore } from "@/stores/useUserStore";
-import { useEffect, useState } from "react";
-import { AllFeeds } from "@/types/feed/feed.type";
 import { followToggle, getFollowingById } from "@/apis/user-api";
+import { useUserStore } from "@/stores/useUserStore";
+import { AllFeeds } from "@/types/feed/feed.type";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import FeedMenuModal from "../modal/feed-menu";
 
 type ProfileProps = {
   feed: AllFeeds;

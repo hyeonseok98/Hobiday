@@ -1,18 +1,18 @@
 "use client";
 
-import cn from "@/lib/tailwind-cn";
-import Icon from "@/components/commons/icons";
-import ArrowBack from "@/assets/icons/arrow-back.svg";
-import { useRouter } from "next/navigation";
-import EditProfileImage from "./_components/edit-image";
-import EditProfileName from "./_components/edit-name";
-import EditProfileIntroduction from "./_components/edit-introduction";
-import EditProfileGenres from "./_components/edit-genres";
-import { useUserStore } from "@/stores/useUserStore";
-import LoadingSpinner from "@/components/commons/spinner";
-import { useState } from "react";
-import useProfileImageUpload from "@/hooks/user/use-profile-image-upload";
 import { updateMyProfile } from "@/apis/user-api";
+import ArrowBack from "@/assets/icons/arrow-back.svg";
+import Icon from "@/components/commons/icons";
+import LoadingSpinner from "@/components/commons/spinner";
+import useProfileImageUpload from "@/hooks/user/use-profile-image-upload";
+import cn from "@/lib/tailwind-cn";
+import { useUserStore } from "@/stores/useUserStore";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import EditProfileGenres from "./_components/edit-genres";
+import EditProfileImage from "./_components/edit-image";
+import EditProfileIntroduction from "./_components/edit-introduction";
+import EditProfileName from "./_components/edit-name";
 
 export default function ProfileEditPage() {
   const { user, setUser } = useUserStore();

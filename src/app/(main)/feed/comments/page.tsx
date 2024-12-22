@@ -1,5 +1,5 @@
-import { MainLayout } from "@/components/layout";
 import CommentPage from "@/components/feed/comment";
+import { MainLayout } from "@/components/layout";
 import { Suspense } from "react";
 
 export default function CommentsPage() {

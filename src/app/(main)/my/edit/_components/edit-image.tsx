@@ -1,4 +1,3 @@
-import axios from "axios";
 import SvgPlusCircle from "@/assets/svgr-icons/PlusCircle";
 import { useState } from "react";
 
