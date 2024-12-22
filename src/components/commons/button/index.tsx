@@ -60,7 +60,12 @@ export default function Button({
 }: PropsWithChildren<ButtonProps>) {
   const buttonClassName = buttonVariants({ variant, size, fullWidth, disabled });
   return (
-    <button className={cn(buttonClassName, className)} {...props}>
+    <button
+      className={cn(buttonClassName, className)}
+      disabled={disabled}
+      aria-disabled={disabled ? "true" : undefined}
+      {...props}
+    >
       {children}
     </button>
   );

@@ -40,11 +40,6 @@ export default function FeedPageList() {
     setFilter(newFilter);
   }
 
-  function checkIsFollowing(feedProfileId: number, loggedInProfileId: number): boolean {
-    // 고도화 단계에서 팔로우 기능 구현 시 로직 추가
-    return feedProfileId === loggedInProfileId;
-  }
-
   return (
     <>
       <div className="bg-blue-50 w-full overflow-y-hidden">
@@ -77,11 +72,7 @@ export default function FeedPageList() {
 
         {feedData?.map((feed) => (
           <FeedItem key={feed.feedId} className="w-full">
-            <FeedItem.Profile
-              profileImageUrl={feed.profileImageUrl || ""}
-              profileName={feed.profileName}
-              isFollowing={checkIsFollowing(feed.profileId, 5)}
-            />
+            <FeedItem.Profile feed={feed} />
             <FeedItem.Image feedFiles={feed.feedFiles} />
             <FeedItem.Content contents={feed.contents} />
             <FeedItem.HashTags hashTag={feed.hashTag} />

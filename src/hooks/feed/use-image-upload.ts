@@ -57,7 +57,7 @@ const useImageUpload = (): UseImageUploadReturn => {
         }
 
         // 2. Presigned URL로 파일 업로드
-        await axios.put(presignedUrl, file.name, {
+        await axios.put(presignedUrl, file, {
           headers: {
             "Content-Type": file.type,
           },

@@ -16,17 +16,12 @@ export default function FeedImage({ feedFiles }: ImageCarouselProps) {
             spaceBetween={10}
             slidesPerView={1}
             pagination={{ clickable: false }}
-            navigation={false}
             loop={false}
             modules={[Pagination]}
           >
             {feedFiles.map((file, index) => (
               <SwiperSlide key={file}>
-                <img
-                  src={`${process.env.NEXT_PUBLIC_S3_BUCKET_URL}${file}`}
-                  alt={`feed-image-${index}`}
-                  className="w-[398px] h-[398px] object-cover"
-                />
+                <img src={`${file}`} alt={`feed-image-${index}`} className="w-[398px] h-[398px] object-cover" />
               </SwiperSlide>
             ))}
           </Swiper>

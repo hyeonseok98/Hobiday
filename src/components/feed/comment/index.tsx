@@ -3,7 +3,7 @@
 import CommentCard from "@/components/comment";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { fetchComment } from "@/apis/comment-api";
+import { createComment, fetchComment } from "@/apis/comment-api";
 import { Comment } from "@/types/comment";
 import LoadingSpinner from "@/components/commons/spinner";
 import { useUserStore } from "@/stores/useUserStore";
@@ -28,19 +28,13 @@ export default function CommentPage() {
 
   const fetchComments = async () => {
     try {
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) {
-        alert("로그인이 필요합니다.");
-        return;
+      if (!feedId) {
+        throw new Error("피드 ID가 없습니다.");
       }
 
-      const response = await axios.get(`/api/comments/${feedId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log(response.data.result);
-      setAllComments(response.data.result);
+      const response = await fetchComment(feedId);
+      console.log(response);
+      setAllComments(response.result);
     } catch (error) {
       console.error("댓글 조회 중 오류 발생:", error);
       alert("댓글을 불러오는 데 실패했습니다.");
@@ -63,29 +57,15 @@ export default function CommentPage() {
       return;
     }
     try {
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) {
-        alert("로그인이 필요합니다.");
-        return;
-      }
+      const params = {
+        feedId: Number(feedId),
+        data: { contents: comment },
+      };
 
-      const response = await axios.post(
-        `/api/comments/${feedId}`,
-        {
-          contents: comment,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
-
-      if (response.status === 200) {
-        alert("댓글이 등록되었습니다.");
-        setComment("");
-        await fetchComments();
-      }
+      await createComment(params);
+      alert("댓글 등록 성공");
+      setComment("");
+      await fetchComments();
     } catch (error) {
       console.error("댓글 등록 중 오류 발생:", error);
       alert("댓글 등록에 실패했습니다. 다시 시도해주세요.");
@@ -105,6 +85,7 @@ export default function CommentPage() {
               profileName={comment.profileName}
               relativeTime={comment.relativeTime}
               contents={comment.contents}
+              fetchComments={fetchComments}
             />
           ))
         ) : (

@@ -49,6 +49,10 @@ export default function NavigationBar({ className }: { className?: string }) {
     if (pathname.startsWith("/feed")) {
       return "피드";
     }
+    // my 이하 경로도 my로 간주
+    if (pathname.startsWith("/my")) {
+      return "마이페이지";
+    }
     return NAVIGATION_TABS.find((tab) => tab.path === pathname)?.name || "홈";
   }, [pathname]);
 

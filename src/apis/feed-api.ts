@@ -3,6 +3,7 @@ import { ENDPOINTS } from "./end-points";
 import { apiClient } from "./index";
 import { AllFeedsResponse } from "@/types/feed/feed.type";
 
+// 최신순 정렬
 export const fetchAllFeedByLatest = async () => {
   try {
     const response = await apiClient.get<AllFeedsResponse>(ENDPOINTS.FEED.GET.LATEST);
@@ -14,6 +15,7 @@ export const fetchAllFeedByLatest = async () => {
   }
 };
 
+// 인기순 정렬
 export const fetchAllFeedByPopular = async () => {
   try {
     const response = await apiClient.get<AllFeedsResponse>(ENDPOINTS.FEED.GET.POPULAR);
@@ -23,23 +25,26 @@ export const fetchAllFeedByPopular = async () => {
   }
 };
 
-export const fetchAllFeedByMine = async () => {
+// 사용자 Id로 모든 피드 조회
+export const fetchAllFeedById = async (profileId: number) => {
   try {
-    const response = await apiClient.get<AllFeedsResponse>(ENDPOINTS.FEED.GET.MINE);
-    return response.data;
+    const response = await apiClient.get(ENDPOINTS.FEED.GET.BY_ID(profileId));
+    return response.data.result;
   } catch (error) {
     throw new Error(handleApiError(error));
   }
 };
 
 /**
+ * @param profileId - 프로필 ID
  * @param feedId - 피드 ID
  * @returns 피드 상세 정보
  */
-export const fetchFeedById = async (feedId: string) => {
+// 개별 피드 조회
+export const fetchFeedById = async (feedId: number) => {
   try {
-    const response = await apiClient.get<AllFeedsResponse>(ENDPOINTS.FEED.GET.DETAIL(feedId));
-    return response.data;
+    const response = await apiClient.get(ENDPOINTS.FEED.GET.DETAIL(feedId));
+    return response.data.result;
   } catch (error) {
     throw new Error(handleApiError(error));
   }
@@ -58,14 +63,22 @@ export const createFeed = async (data: FormData) => {
   }
 };
 
+interface UpdateFeedData {
+  content: string;
+  topic: string;
+  fileUrls: string[];
+  hashTags: string[];
+  performId: string;
+}
+
 /**
  * @param feedId - 피드 ID
  * @param data - 피드 데이터
  * @returns 피드 정보
  */
-export const updateFeed = async (params: { feedId: string; data: FormData }) => {
+export const updateFeed = async (params: { feedId: number; data: UpdateFeedData }) => {
   try {
-    const response = await apiClient.put(ENDPOINTS.FEED.UPDATE(params.feedId), params.data);
+    const response = await apiClient.patch(ENDPOINTS.FEED.UPDATE(params.feedId), params.data);
     return response.data;
   } catch (error) {
     throw new Error(handleApiError(error));
@@ -76,7 +89,7 @@ export const updateFeed = async (params: { feedId: string; data: FormData }) => 
  * @param feedId - 피드 ID
  * @returns
  */
-export const deleteFeed = async (feedId: string) => {
+export const deleteFeed = async (feedId: number) => {
   try {
     const response = await apiClient.delete(ENDPOINTS.FEED.DELETE(feedId));
     return response.data;
@@ -102,7 +115,7 @@ export const saveImageFile = async (data: FormData) => {
  * @param feedId - 피드 ID
  * @returns 좋아요 정보
  */
-export const likeFeed = async (feedId: string) => {
+export const likeFeed = async (feedId: number) => {
   try {
     const response = await apiClient.post(ENDPOINTS.FEED.LIKE(feedId));
     return response.data;

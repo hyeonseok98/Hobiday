@@ -1,13 +1,12 @@
 import UploadPage from "@/components/feed/upload";
+import { Suspense } from "react";
 
 export default function FeedUploadPage() {
-  // function handleFeedUpload() {
-  //   console.log("API 연결 예정");
-  // }
-
   return (
     <div className="relative flex flex-col min-h-screen">
-      <UploadPage />
+      <Suspense fallback={<div>Loading...</div>}>
+        <UploadPage />
+      </Suspense>
     </div>
   );
 }

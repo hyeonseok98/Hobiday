@@ -1,11 +1,17 @@
+import { Search } from "@/assets/svgr-icons";
 import { MainLayout } from "@/components/layout";
+import TextLogo from "public/img/logo-text.svg";
+import Wishlist from "./_components/wishlist";
 
 export default function WishlistPage() {
+  const headerProps = {
+    leftIcons: [{ icon: <TextLogo />, path: "/" }],
+    rightIcons: [{ icon: <Search />, path: "/search", size: 24 }],
+  };
+
   return (
-    <MainLayout headerProps={{ showBackButton: true }}>
-      <div className="flex flex-col items-center justify-center min-h-screen text-gray-600">
-        고도화 기간 중 업데이트 예정입니다.
-      </div>
+    <MainLayout headerProps={headerProps}>
+      <Wishlist />
     </MainLayout>
   );
 }

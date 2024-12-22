@@ -16,7 +16,6 @@ export function performanceDetailAllAdapter(data: ServerPerformanceDetailAll): C
       area: data.area,
     },
     posterUrl: data.poster,
-    likes: data.likeCount,
     facilityId: data.facilityId,
     cast: data.cast,
     runtime: data.runtime,
@@ -31,5 +30,8 @@ export function performanceDetailAllAdapter(data: ServerPerformanceDetailAll): C
     storyImageUrl: data.storyUrl,
     showtime: data.showtime,
     openRun: data.openRun,
+    likeCounts: data.wishCount,
+    feedCounts: data.feedCount,
+    isLiked: data.isWished,
   };
 }

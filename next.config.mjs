@@ -7,6 +7,21 @@ const nextConfig = {
         hostname: "www.kopis.or.kr",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "hyun-buckbuck.s3.ap-northeast-2.amazonaws.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "hobiday-bucket.s3.ap-northeast-2.amazonaws.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.cloudfront.net",
+        pathname: "/**",
+      },
     ],
   },
   webpack(config) {

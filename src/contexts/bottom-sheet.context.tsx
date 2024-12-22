@@ -3,33 +3,36 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 type BottomSheetContextType = {
-  isOpen: boolean;
-  open: () => void;
-  close: () => void;
+  open: (id: string) => void;
+  close: (id: string) => void;
+  isOpen: (id: string) => boolean;
 };
 
 const BottomSheetContext = createContext<BottomSheetContextType | undefined>(undefined);
 
 export function BottomSheetProvider({ children }: { children: ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [openSheets, setOpenSheets] = useState<Map<string, boolean>>(new Map());
 
-  const open = () => setIsOpen(true);
-  const close = () => setIsOpen(false);
+  const open = (id: string) => {
+    setOpenSheets((prev) => new Map(prev).set(id, true));
+  };
+
+  const close = (id: string) => {
+    setOpenSheets((prev) => new Map(prev).set(id, false));
+  };
+
+  const isOpen = (id: string) => openSheets.get(id) || false;
 
   // 바텀 시트 외부 영역 스크롤 방지
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
+    const hasOpenSheets = Array.from(openSheets.values()).some((value) => value);
+    document.body.style.overflow = hasOpenSheets ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen]);
+  }, [openSheets]);
 
-  return <BottomSheetContext.Provider value={{ isOpen, open, close }}>{children}</BottomSheetContext.Provider>;
+  return <BottomSheetContext.Provider value={{ open, close, isOpen }}>{children}</BottomSheetContext.Provider>;
 }
 
 export function useBottomSheet() {

@@ -57,8 +57,9 @@ function SelectCategoryButton({ onConfirm, disabled }: SelectCategoryButtonProps
 
 export default function SelectCategory() {
   const { category, setCategory } = useUploadTextStore();
-  const [tempCategory, setTempCategory] = useState("");
+  const [tempCategory, setTempCategory] = useState(category || "");
   const { open, close } = useBottomSheet();
+  const bottomSheetId = "selectCategory";
   const categories = ["연극", "무용", "대중무용", "클래식", "국악", "대중음악", "복합", "서커스/마술", "뮤지컬"];
 
   const handleCategoryChange = (category: string) => {
@@ -68,7 +69,7 @@ export default function SelectCategory() {
   const handleConfirm = () => {
     if (tempCategory) {
       setCategory(tempCategory);
-      close();
+      close(bottomSheetId);
     }
   };
 
@@ -88,14 +89,14 @@ export default function SelectCategory() {
             className="ml-auto text-sm bg-white border border-gray-100"
           />
         ) : (
-          <button onClick={open} className="ml-auto">
+          <button onClick={() => open(bottomSheetId)} className="ml-auto">
             <Icon size={24}>
               <ArrowForward />
             </Icon>
           </button>
         )}
       </div>
-      <BottomSheet height="70%">
+      <BottomSheet id={bottomSheetId} height="70%">
         <BottomSheet.Title>주제 선택</BottomSheet.Title>
         <BottomSheet.Contents>
           <CategoryList categories={categories} tempCategory={tempCategory} onCategoryChange={handleCategoryChange} />

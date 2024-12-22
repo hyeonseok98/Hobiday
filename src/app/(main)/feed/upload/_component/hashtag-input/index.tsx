@@ -5,12 +5,13 @@ import { ChangeEvent, KeyboardEvent, useState } from "react";
 import Hashtag from "src/assets/icons/hashtag.svg";
 
 type HashTagInputProps = {
+  hashTags: string[];
   onAddHashTags: (tags: string[]) => void;
   onRemoveHashTag: (tags: string) => void;
 };
 
-export default function HashtagInput({ onAddHashTags, onRemoveHashTag }: HashTagInputProps) {
-  const [inputValue, setInputValue] = useState("");
+export default function HashtagInput({ hashTags, onAddHashTags, onRemoveHashTag }: HashTagInputProps) {
+  const [inputValue, setInputValue] = useState(hashTags.join(" ") || "");
   const [error, setError] = useState("");
 
   function isValidTag(tag: string) {

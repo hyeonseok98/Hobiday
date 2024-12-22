@@ -39,7 +39,6 @@ export interface ClientPerformanceDetailAll {
     area: string;
   };
   posterUrl: string;
-  likes: number;
   facilityId: string;
   cast: string;
   runtime: string;
@@ -54,4 +53,14 @@ export interface ClientPerformanceDetailAll {
   storyImageUrl: string;
   showtime: string;
   openRun: boolean;
+  likeCounts: number;
+  feedCounts: number;
+  isLiked: boolean;
+}
+
+// 추천 공연 검색어
+export interface ClientRecommendedSearchWords {
+  performanceId: string;
+  performanceName: string;
+  genreName: string;
 }

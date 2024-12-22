@@ -8,7 +8,7 @@ type SearchCardProps = {
 };
 
 export default function SearchCard({ children, className }: SearchCardProps) {
-  return <div className={cn("flex rounded-md bg-gray-50", className)}>{children}</div>;
+  return <div className={cn("flex rounded-md", className)}>{children}</div>;
 }
 
 type SearchCardImageProps = {
@@ -40,7 +40,7 @@ function SearchCardContent({ title, category, info, iconSrc, svgr, className }: 
   return (
     <div className={cn("flex flex-col justify-center", className)}>
       {/* Title: 한 줄 */}
-      <h3 className="text-sm font-medium text-gray-800 whitespace-nowrap overflow-hidden text-ellipsis">{title}</h3>
+      <h3 className="text-sm font-medium text-gray-800 overflow-hidden text-ellipsis">{title}</h3>
 
       {/* Category와 Info를 한 줄에 배치 */}
       <div className="flex items-center text-xs text-gray-500 mt-1 space-x-2">
@@ -48,7 +48,7 @@ function SearchCardContent({ title, category, info, iconSrc, svgr, className }: 
         <div className="flex items-center">
           {iconSrc && (
             <div className="flex-shrink-0 w-4 h-4 mr-[3px]">
-              <Image src={iconSrc} alt="icon" width={16} height={16} className="w-full h-full object-contain" />
+              <Image src={iconSrc} alt="icon" width={16} height={16} className="w-full h-full object-fill" />
             </div>
           )}
           {svgr && <div className="flex justify-center items-center w-3 h-3 mr-[3px]">{svgr}</div>}

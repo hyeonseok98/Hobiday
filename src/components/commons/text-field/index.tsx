@@ -1,5 +1,5 @@
 import cn from "@/lib/tailwind-cn";
-import { forwardRef, InputHTMLAttributes, PropsWithChildren } from "react";
+import { forwardRef, InputHTMLAttributes, PropsWithChildren, useId } from "react";
 
 export default function TextField({ children, className }: PropsWithChildren<{ className?: string }>) {
   return <div className={cn("flex flex-col gap-1", className)}>{children}</div>;
@@ -27,6 +27,10 @@ TextField.Input = forwardRef<
   HTMLInputElement,
   InputHTMLAttributes<HTMLInputElement> & { status?: "default" | "success" | "error" }
 >(({ className, status = "default", value = "", maxLength, id, ...props }, ref) => {
+  const uniqueId = useId();
+  const labelId = `textField-label-${uniqueId}`;
+  const helperTextId = `textField-helperText-${uniqueId}`;
+
   const inputStyle = {
     default: "border-gray-200 focus:ring-gray-500 focus:border-gray-500",
     success: "border-primary focus:ring-blue-500 focus:border-blue-500",
@@ -40,6 +44,8 @@ TextField.Input = forwardRef<
         id={id}
         maxLength={maxLength}
         className={cn("w-full border-b-2 px-1 py-2 font-semibold focus:outline-none", inputStyle[status], className)}
+        aria-labelledby={labelId} // label과 연결
+        aria-describedby={helperTextId} // Helper Text와 연결
         {...props}
       />
       {maxLength && value && (

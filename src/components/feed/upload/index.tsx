@@ -1,5 +1,8 @@
 "use client";
 
+import { updateFeed } from "@/apis/feed-api";
+import { fetchPerformanceById } from "@/apis/performance-api";
+import AddInfo from "@/app/(main)/feed/upload/_component/add-info";
 import SelectCategory from "@/app/(main)/feed/upload/_component/category";
 import HashtagInput from "@/app/(main)/feed/upload/_component/hashtag-input";
 import ImageUploader from "@/app/(main)/feed/upload/_component/image-uploader";
@@ -10,19 +13,64 @@ import useFeedRegistration from "@/hooks/feed/use-feed-upload";
 import usePresignedURL from "@/hooks/feed/use-image-upload";
 import cn from "@/lib/tailwind-cn";
 import useUploadTextStore from "@/stores/useUploadTextStore";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 export default function UploadPage() {
   const router = useRouter();
-  const handleGoBack = () => {
-    router.back();
-  };
-  const { performId, content, category, hashTags, photos, setHashTags } = useUploadTextStore();
+  const {
+    performId,
+    content,
+    category,
+    hashTags,
+    photos,
+    fileUrls,
+    feedId,
+    selectedPerformance,
+    setPerformId,
+    setHashTags,
+    setPhotos,
+    setSelectedPerformance,
+  } = useUploadTextStore();
   const { uploadImages, isLoading: isUploading } = usePresignedURL();
   const { registerFeed, isLoading: isRegistering } = useFeedRegistration();
 
+  const searchParams = useSearchParams();
+  const queryPerformId = searchParams.get("performId");
+
+  const handleGoBack = () => {
+    useUploadTextStore.getState().reset();
+    router.back();
+  };
+
+  useEffect(() => {
+    if (queryPerformId && queryPerformId !== performId) {
+      setPerformId(queryPerformId);
+    }
+
+    if (!selectedPerformance && performId) {
+      const fetchSelectedPerformance = async () => {
+        try {
+          const performanceInfo = await fetchPerformanceById(performId);
+          console.log("performanceInfo: ", performanceInfo);
+          setSelectedPerformance(performanceInfo);
+        } catch (error) {
+          console.error("퍼포먼스 정보 불러오기 실패", error);
+        }
+      };
+
+      fetchSelectedPerformance();
+    }
+
+    if (fileUrls.length > 0) {
+      setPhotos(() => fileUrls);
+    }
+  }, [queryPerformId, performId, selectedPerformance, fileUrls]);
+
   function handleAddHashTags(tags: string[]) {
-    setHashTags([...hashTags, ...tags]);
+    const addHashTags = Array.from(new Set([...hashTags, ...tags]));
+    setHashTags(addHashTags);
+    console.log(hashTags);
   }
 
   function handleRemoveHashTag(tag: string) {
@@ -36,26 +84,36 @@ export default function UploadPage() {
     }
 
     try {
-      const uploadedUrls = await uploadImages(photos);
+      // photos에 이미 string이 있을 경우 이미지 파일만 선택
+      const uploadedUrls = await uploadImages(photos.filter((photo): photo is File => photo instanceof File));
       // url 주소 추가
       const baseAddrss = process.env.NEXT_PUBLIC_S3_BUCKET_URL;
-      const fullUrls = uploadedUrls.map((url) => `${baseAddrss}${url}`);
-      console.log(fullUrls);
-      // const fullUrls = [
-      //   "https://fastly.picsum.photos/id/861/400/400.jpg?hmac=Bt3C22W8d4rkkTYLllIRhZyKnD8LLvwgzUmqhGjzKsI",
-      //   "https://fastly.picsum.photos/id/443/500/500.jpg?hmac=k2eq9Aa8gmKfA9nN2fx1CVVqAIhaCzUWfuLT8TaOTtM",
-      // ];
+      const fullUrls = [...fileUrls, ...uploadedUrls.map((url) => `${baseAddrss}${url}`)];
 
-      await registerFeed({
-        performId: "PF254874",
+      const requestData = {
+        performId: performId,
         content,
         topic: category,
         hashTags: hashTags.length > 0 ? hashTags : [""],
         fileUrls: fullUrls,
-      });
-      console.log("등록 성공");
+      };
+
+      // 피드 수정
+      if (feedId) {
+        await updateFeed({ feedId, data: requestData });
+        console.log("data: ", requestData);
+        alert("수정 성공");
+      } else {
+        // 피드 등록
+        await registerFeed(requestData);
+        alert("등록 성공");
+      }
+      // 초기화
+      useUploadTextStore.getState().reset();
+      router.push("/feed");
     } catch (err) {
-      console.error("업로드 실패", err);
+      console.error(feedId ? "수정 실패" : "등록 실패", err);
+      alert(feedId ? "수정 실패" : "등록 실패");
     }
   }
 
@@ -79,8 +137,8 @@ export default function UploadPage() {
       <SelectCategory />
       <ImageUploader />
       <TextInput />
-      <HashtagInput onAddHashTags={handleAddHashTags} onRemoveHashTag={handleRemoveHashTag} />
-      {/* <AddInfo /> */}
+      <HashtagInput hashTags={hashTags} onAddHashTags={handleAddHashTags} onRemoveHashTag={handleRemoveHashTag} />
+      <AddInfo />
     </div>
   );
 }

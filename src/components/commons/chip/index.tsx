@@ -60,6 +60,9 @@ export default function Chip({
             onClose?.();
           }}
           className="ml-[2px] flex items-center justify-center w-[18px] h-[18px] text-gray-500 cursor-pointer hover:text-gray-700 active:text-gray-900"
+          role="button"
+          aria-label="Delete Icon"
+          aria-hidden="false"
         >
           ×
         </div>

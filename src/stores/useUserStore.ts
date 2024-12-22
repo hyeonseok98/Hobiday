@@ -8,6 +8,9 @@ export interface Profile {
   profileGenres: string[];
   profileIntroduction: string;
   profileImageUrl: string;
+  totalFeedCount: number;
+  followerCount: number;
+  followingCount: number;
 }
 
 // 유저 정보 상태 관리

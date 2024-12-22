@@ -1,5 +1,5 @@
 import { MainLayout } from "@/components/layout";
-import PerformanceDeatil from "./_components/performance-detail";
+import PerformanceDeatil from "./_components";
 
 export default function PerformanceDetailPage() {
   return (

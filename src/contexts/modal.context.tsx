@@ -14,7 +14,10 @@ export function ModalProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const open = () => setIsOpen(true);
-  const close = () => setIsOpen(false);
+  function close(callback?: () => void) {
+    setIsOpen(false);
+    if (callback) callback();
+  }
 
   // 모달 외부 영역 스크롤 방지
   useEffect(() => {

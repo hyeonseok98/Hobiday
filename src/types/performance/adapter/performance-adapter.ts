@@ -1,7 +1,7 @@
 import { ClientPerformance } from "../client";
-import { ServerPerformance } from "../server";
+import { ServerAllPerformances } from "../server";
 
-export function performanceAdapter(data: ServerPerformance[]): ClientPerformance[] {
+export function performanceAdapter(data: ServerAllPerformances[]): ClientPerformance[] {
   return data.map((item) => ({
     performanceId: item.performId,
     performanceName: item.performName,
