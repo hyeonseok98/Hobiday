@@ -1,13 +1,11 @@
-import { updateMyProfile } from "@/apis/user-api";
 import SvgArrowForward from "@/assets/svgr-icons/ArrowForward";
 import BottomSheet from "@/components/bottom-sheet";
 import Button from "@/components/commons/button";
 import Chip from "@/components/commons/chip";
-import { TAB_CATEGORY } from "@/constants/category";
+import { FEED_CATEGORY } from "@/constants/category";
 import { useBottomSheet } from "@/contexts";
 import { useUpdateProfileMutation } from "@/hooks/user/use-profile-update";
 import { useOnboardingStore } from "@/stores/use-onboarding.store";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface ProfileGenresProps {
@@ -20,7 +18,7 @@ export default function EditProfileGenres({ profileGenres }: ProfileGenresProps)
   const { categories, setCategories } = useOnboardingStore();
   const [selectedCategories, setSelectedCategories] = useState<string[]>(categories);
 
-  const categoryList = TAB_CATEGORY.slice(1); // "전체"를 제외한 카테고리
+  const categoryList = FEED_CATEGORY;
   const { mutate: updateProfile } = useUpdateProfileMutation();
 
   function handleOpen() {
@@ -85,12 +83,12 @@ export default function EditProfileGenres({ profileGenres }: ProfileGenresProps)
           <BottomSheet.Title>관심사 선택</BottomSheet.Title>
           <BottomSheet.Contents>
             <div className="px-[29px] grid grid-cols-3 gap-x-2 gap-y-4">
-              {categoryList.map((category) => (
+              {categoryList.map((category, index) => (
                 <Chip
-                  key={category.id}
-                  label={category.name}
-                  state={selectedCategories.includes(category.name) ? "selected" : "default"}
-                  onClick={() => handleChipClick(category.name)}
+                  key={index}
+                  label={category}
+                  state={selectedCategories.includes(category) ? "selected" : "default"}
+                  onClick={() => handleChipClick(category)}
                 />
               ))}
             </div>

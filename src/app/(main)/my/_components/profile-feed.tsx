@@ -16,7 +16,7 @@ export default function ProfileFeed({ myFeeds }: feedThumbnailProps) {
   };
 
   return (
-    <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-1">
+    <div className="grid grid-cols-3 gap-1">
       {myFeeds.map((feed) => (
         <div key={feed.feedId} onClick={() => handleFeedClick(feed.feedId)} className="overflow-hidden cursor-pointer">
           <img src={feed.imageUrl} alt={`feed.${feed.feedId}`} className="w-36 h-36 object-cover" />
