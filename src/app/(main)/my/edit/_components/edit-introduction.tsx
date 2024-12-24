@@ -3,7 +3,7 @@ import SvgPencil from "@/assets/svgr-icons/Pencil";
 import BottomSheet from "@/components/bottom-sheet";
 import Button from "@/components/commons/button";
 import { useBottomSheet } from "@/contexts";
-import { useRouter } from "next/navigation";
+import { useUpdateProfileMutation } from "@/hooks/user/use-profile-update";
 import { useState } from "react";
 
 interface ProfileIntroductionProps {
@@ -11,24 +11,32 @@ interface ProfileIntroductionProps {
 }
 
 export default function EditProfileIntroduction({ profileIntroduction }: ProfileIntroductionProps) {
-  const router = useRouter();
   const { open, close } = useBottomSheet();
   const bottomSheetId = "editProfileIntroduction";
   const [content, setContent] = useState(profileIntroduction || "");
+  const { mutate: updateProfile } = useUpdateProfileMutation();
 
   function handleContentChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setContent(e.target.value);
   }
 
   async function handleUpdate() {
-    try {
-      await updateMyProfile({ profileIntroduction: content });
-      alert("수정이 완료되었습니다!");
-      close(bottomSheetId);
-      router.push("/my");
-    } catch (error) {
-      alert("수정에 실패했습니다. 다시 시도해주세요.");
-    }
+    updateProfile(
+      {
+        profileIntroduction: content,
+      },
+      {
+        onSuccess: () => {
+          alert("수정이 완료되었습니다.");
+        },
+        onError: () => {
+          alert("수정에 실패했습니다.");
+        },
+        onSettled: () => {
+          close(bottomSheetId);
+        },
+      },
+    );
   }
   return (
     <>

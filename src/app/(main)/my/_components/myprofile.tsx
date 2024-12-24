@@ -12,58 +12,36 @@ import ProfileGenres from "./profile-genres";
 import ProfileImage from "./profile-image";
 import ProfileName from "./profile-name";
 import ProfileStats from "./profile-stats";
-
-interface FeedData {
-  feedId: number;
-  feedFiles: string[];
-}
-
-interface FeedThumbnail {
-  feedId: number;
-  imageUrl: string; // 첫 번째 사진만 사용
-}
+import { FeedData, FeedThumbnail } from "@/types/feed";
+import { useGetMyProfile } from "@/hooks/user/use-profile-update";
+import { useAllFeedsByProfileIdQuery } from "@/hooks/feed/use-feed-query";
 
 export default function MyProfilePage() {
   const user = useUserStore((state) => state.user);
-  const setUser = useUserStore((state) => state.setUser);
   const [myFeed, setMyFeed] = useState<FeedThumbnail[]>([]);
 
+  const { data: getMyProfile, isPending: isGetMyProfileLoading, isError: isGetMyProfileError } = useGetMyProfile();
+
+  const {
+    data: getAllFeedById,
+    isPending: isGetAllFeedByIdLoading,
+    isError: isGetAllFeedByIdError,
+  } = useAllFeedsByProfileIdQuery(getMyProfile?.profileId);
+
   useEffect(() => {
-    const getUserProfile = async () => {
-      try {
-        const data = await getMyProfile();
-        console.log("data: ", data);
-        setUser(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    if (getAllFeedById) {
+      const thumbnailData = getAllFeedById.map((feed) => ({
+        feedId: feed.feedId,
+        imageUrl: feed.feedFiles[0],
+      }));
+      setMyFeed(thumbnailData);
+    }
+  }, [getAllFeedById]);
 
-    const getUserFeed = async () => {
-      if (!user) return;
-      try {
-        const feedData: FeedData[] = await fetchAllFeedById(user.profileId);
-        console.log("feedData: ", feedData);
-
-        // 피드 데이터에서 썸네일 데이터만 추출
-        const thumbnailData = feedData.map((feed) => ({
-          feedId: feed.feedId,
-          imageUrl: feed.feedFiles[0],
-        }));
-        setMyFeed(thumbnailData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getUserProfile();
-    getUserFeed();
-  }, [setUser]);
-
-  if (!user) {
+  if (isGetMyProfileLoading || isGetAllFeedByIdLoading || !user) {
     return (
-      <div>
-        <LoadingSpinner />
+      <div className="flex justify-center items-center h-[300px]">
+        <LoadingSpinner size={60} />
       </div>
     );
   }

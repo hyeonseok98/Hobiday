@@ -5,7 +5,7 @@ interface UserFollowCardProps {
   profileId: number;
   profileImageUrl: string | null;
   profileNickname: string;
-  // profileIntroduction: string | null;
+  profileIntroduction: string | null;
   isFollowing: boolean;
   onFollowToggle: () => void;
 }
@@ -28,7 +28,7 @@ export default function UserFollowCard(user: UserFollowCardProps) {
       {/* User Info */}
       <div className="flex-1 ml-3">
         <h3 className="text-sm font-semibold truncate">{user.profileNickname}</h3>
-        {/* <p className="text-xs">{user.profileIntroduction}</p> */}
+        <p className="text-xs">{user.profileIntroduction}</p>
       </div>
 
       {/* Follow Button */}

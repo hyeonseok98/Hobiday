@@ -5,6 +5,7 @@ import Button from "@/components/commons/button";
 import Chip from "@/components/commons/chip";
 import { TAB_CATEGORY } from "@/constants/category";
 import { useBottomSheet } from "@/contexts";
+import { useUpdateProfileMutation } from "@/hooks/user/use-profile-update";
 import { useOnboardingStore } from "@/stores/use-onboarding.store";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -16,11 +17,16 @@ interface ProfileGenresProps {
 export default function EditProfileGenres({ profileGenres }: ProfileGenresProps) {
   const { open, close } = useBottomSheet();
   const bottomSheetId = "editProfileGenres";
-  const router = useRouter();
   const { categories, setCategories } = useOnboardingStore();
   const [selectedCategories, setSelectedCategories] = useState<string[]>(categories);
 
   const categoryList = TAB_CATEGORY.slice(1); // "전체"를 제외한 카테고리
+  const { mutate: updateProfile } = useUpdateProfileMutation();
+
+  function handleOpen() {
+    setSelectedCategories(profileGenres);
+    open(bottomSheetId);
+  }
 
   function handleAllReset() {
     setSelectedCategories([]);
@@ -38,14 +44,22 @@ export default function EditProfileGenres({ profileGenres }: ProfileGenresProps)
       return;
     }
 
-    try {
-      await updateMyProfile({ profileGenre: selectedCategories });
-      alert("수정이 완료되었습니다.");
-      close(bottomSheetId);
-      router.push("/my");
-    } catch (error) {
-      alert("수정에 실패했습니다.");
-    }
+    updateProfile(
+      { profileGenres: selectedCategories },
+      {
+        onSuccess: () => {
+          setCategories(selectedCategories);
+
+          alert("수정이 완료되었습니다.");
+        },
+        onError: () => {
+          alert("수정에 실패했습니다.");
+        },
+        onSettled: () => {
+          close(bottomSheetId);
+        },
+      },
+    );
   }
 
   return (
@@ -63,7 +77,7 @@ export default function EditProfileGenres({ profileGenres }: ProfileGenresProps)
           </div>
         </div>
 
-        <button onClick={() => open(bottomSheetId)} className="px-4">
+        <button onClick={handleOpen} className="px-4">
           <SvgArrowForward />
         </button>
 

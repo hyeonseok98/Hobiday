@@ -1,34 +1,25 @@
-"use client";
-
-import { useEffect } from "react";
-import { IntroText, LoginButton, Logo, Policies, Title } from "./_component";
+import Gap from "@/components/commons/gap";
+import "swiper/css";
+import "swiper/css/pagination";
+import { KakaoInitializer, LoginButton, OnboardingSwiper, Policies } from "./_component";
 
 export default function LoginPage(): JSX.Element {
-  // 카카오 SDK 초기화
-  useEffect(() => {
-    const kakaoSDK = document.createElement("script");
-    kakaoSDK.async = false;
-    kakaoSDK.src = `https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js`;
-    kakaoSDK.integrity = `sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka`;
-    kakaoSDK.crossOrigin = `anonymous`;
-    document.head.appendChild(kakaoSDK);
-
-    function onLoadKakaoAPI() {
-      if (!window.Kakao.isInitialized()) {
-        window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JS_API_KEY);
-        console.log("first Init!: ", window.Kakao.isInitialized());
-      }
-    }
-    kakaoSDK.addEventListener("load", onLoadKakaoAPI);
-  }, []);
-
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-primary text-white">
-      <Logo />
-      <Title />
-      <IntroText />
+    <div className="relative flex flex-col items-center justify-center w-full h-dvh text-white overflow-hidden">
+      {/* Kakao SDK 초기화 */}
+      <KakaoInitializer />
+      {/* 배경 그라데이션 */}
+      <div className="absolute inset-0 bg-gradient-to-b from-secondary via-[#FFFFFF] to-[#FFFFFF]"></div>
+      {/* 맨 아래 회색 레이어 */}
+      <div className="absolute bottom-[-10px] w-[120%] h-[7%] bg-[#a5bcdc] blur-[28px] opacity-75"></div>
+      {/* 왼쪽 상단 블러 처리된 원 */}
+      <div className="absolute top-[10px] left-[-100px] w-[350px] h-[350px] bg-primary rounded-full blur-[120px] opacity-90 z-10"></div>
+      <div className="absolute top-[50px] left-[-15px] w-[600px] h-[600px] bg-primary rounded-full blur-[170px] opacity-50 z-5"></div>
+
+      <Gap vertical size={72} />
+      <OnboardingSwiper />
       <LoginButton />
       <Policies />
-    </main>
+    </div>
   );
 }

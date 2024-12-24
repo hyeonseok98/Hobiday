@@ -4,10 +4,13 @@ import BottomSheet from "@/components/bottom-sheet";
 import Button from "@/components/commons/button";
 import TextField from "@/components/commons/text-field";
 import { useBottomSheet } from "@/contexts";
+import { PROFILE_KEYS } from "@/hooks/queries";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useCheckNickname } from "@/hooks/user/use-profile-registration";
+import { useUpdateProfileMutation } from "@/hooks/user/use-profile-update";
 import { useOnboardingStore } from "@/stores/use-onboarding.store";
 import { validateNickname } from "@/utils/validate-nickname";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -18,9 +21,9 @@ interface ProfileNameProps {
 export default function EditProfileName({ profileNickname }: ProfileNameProps) {
   const { open, close } = useBottomSheet();
   const bottomSheetId = "editProfileName";
-  const router = useRouter();
+  const { mutate: updateProfile } = useUpdateProfileMutation();
   const { nickname, setNickname } = useOnboardingStore();
-  const [inputValue, setInputValue] = useState(nickname);
+  const [inputValue, setInputValue] = useState("");
   const debouncedValue = useDebounce(inputValue.trim(), 600);
 
   const [status, setStatus] = useState<"default" | "success" | "error">("default");
@@ -57,14 +60,22 @@ export default function EditProfileName({ profileNickname }: ProfileNameProps) {
   };
 
   async function handleUpdate() {
-    try {
-      await updateMyProfile({ profileNickname: inputValue });
-      alert("수정이 완료되었습니다!");
-      close(bottomSheetId);
-      router.push("/my");
-    } catch (error) {
-      alert("수정에 실패했습니다.");
-    }
+    updateProfile(
+      {
+        profileNickname: inputValue,
+      },
+      {
+        onSuccess: () => {
+          alert("닉네임이 수정되었습니다.");
+        },
+        onError: () => {
+          alert("닉네임 수정에 실패했습니다.");
+        },
+        onSettled: () => {
+          close(bottomSheetId);
+        },
+      },
+    );
   }
 
   return (

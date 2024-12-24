@@ -35,3 +35,13 @@ export interface LikeCount {
   likeCount: number;
   liked: boolean;
 }
+
+export interface FeedData {
+  feedId: number;
+  feedFiles: string[];
+}
+
+export interface FeedThumbnail {
+  feedId: number;
+  imageUrl: string; // 첫 번째 사진만 사용
+}

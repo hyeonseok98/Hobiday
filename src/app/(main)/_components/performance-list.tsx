@@ -9,8 +9,10 @@ import { TAB_CATEGORY } from "@/constants/category";
 import { useAllPerformancesQuery, usePerformancesByGenreQuery } from "@/hooks";
 import { useState } from "react";
 import Tabs from "./tabs";
+import { useGetMyProfile } from "@/hooks/user/use-profile-update";
 
 export default function PerformanceList() {
+  const { isLoading } = useGetMyProfile();
   const [selectedTab, setSelectedTab] = useState(0); // 초기 상태를 "전체"로 설정
 
   // "전체" 탭 데이터 가져오기
@@ -45,7 +47,7 @@ export default function PerformanceList() {
     setSelectedTab(category.id);
   };
 
-  if (isPending) {
+  if (isLoading || isPending) {
     return (
       <div className="flex justify-center items-center h-[300px]">
         <LoadingSpinner size={40} />

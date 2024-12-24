@@ -9,7 +9,7 @@ export const fetchAllFeedByLatest = async () => {
     const response = await apiClient.get<AllFeedsResponse>(ENDPOINTS.FEED.GET.LATEST);
     console.log(response.data);
 
-    return response.data;
+    return response.data.result;
   } catch (error) {
     throw new Error(handleApiError(error));
   }
@@ -19,13 +19,13 @@ export const fetchAllFeedByLatest = async () => {
 export const fetchAllFeedByPopular = async () => {
   try {
     const response = await apiClient.get<AllFeedsResponse>(ENDPOINTS.FEED.GET.POPULAR);
-    return response.data;
+    return response.data.result;
   } catch (error) {
     throw new Error(handleApiError(error));
   }
 };
 
-// 사용자 Id로 모든 피드 조회
+// 사용자 Id로 작성된 모든 피드 조회
 export const fetchAllFeedById = async (profileId: number) => {
   try {
     const response = await apiClient.get(ENDPOINTS.FEED.GET.BY_ID(profileId));
@@ -35,12 +35,21 @@ export const fetchAllFeedById = async (profileId: number) => {
   }
 };
 
+// 공연명으로 작성된 모든 피드 조회
+export const fetchAllFeedByPerformId = async (performId: string) => {
+  try {
+    const response = await apiClient.get(ENDPOINTS.FEED.GET.BY_PERFORM_ID(performId));
+    return response.data.result;
+  } catch (error) {
+    throw new Error(handleApiError(error));
+  }
+};
+
 /**
  * @param profileId - 프로필 ID
  * @param feedId - 피드 ID
- * @returns 피드 상세 정보
+ * @returns 개별 피드 조회
  */
-// 개별 피드 조회
 export const fetchFeedById = async (feedId: number) => {
   try {
     const response = await apiClient.get(ENDPOINTS.FEED.GET.DETAIL(feedId));
@@ -52,7 +61,7 @@ export const fetchFeedById = async (feedId: number) => {
 
 /**
  * @param data - 피드 데이터
- * @returns 공연 상세 목록
+ * @returns 피드 작성
  */
 export const createFeed = async (data: FormData) => {
   try {
@@ -74,7 +83,7 @@ interface UpdateFeedData {
 /**
  * @param feedId - 피드 ID
  * @param data - 피드 데이터
- * @returns 피드 정보
+ * @returns 피드 수정
  */
 export const updateFeed = async (params: { feedId: number; data: UpdateFeedData }) => {
   try {
@@ -87,7 +96,7 @@ export const updateFeed = async (params: { feedId: number; data: UpdateFeedData 
 
 /**
  * @param feedId - 피드 ID
- * @returns
+ * @returns 피드 삭제
  */
 export const deleteFeed = async (feedId: number) => {
   try {

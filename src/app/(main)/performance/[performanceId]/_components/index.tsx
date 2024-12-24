@@ -15,7 +15,6 @@ export default function PerformanceDetail() {
   const { data, isLoading, isError } = usePerformanceDetailAll(performanceId);
 
   const facilityId = data?.facilityId;
-  console.log(facilityId);
   const {
     data: facilityInfo,
     isLoading: isFacilityLoading,

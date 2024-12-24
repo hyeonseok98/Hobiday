@@ -1,3 +1,5 @@
+"use client";
+
 import axios from "axios";
 import Link from "next/link";
 
@@ -26,22 +28,19 @@ export default function Policies() {
 
   // 계정: account1, sample1
   return (
-    <h2 className="mt-6 mb-12 text-[10px] font-light leading-6">
-      가입을 진행할 경우,{" "}
-      <Link href={"/terms"} className="font-normal underline">
-        서비스 약관
-      </Link>{" "}
-      및{" "}
-      <Link href={"/terms/privacy-policy"} className="font-normal underline">
-        개인정보 처리방침
-      </Link>
-      에 동의한 것으로 간주합니다
-      <button onClick={() => adminAccess("sample1")}>.</button>
-    </h2>
-    // <h2 className="mt-6 mb-12 text-xs font-light leading-6">
-    //   <button onClick={() => adminAccess("sample1")} className="font-normal underline">
-    //     이곳을 눌러 테스트를 진행해주세요!
-    //   </button>
-    // </h2>
+    <div className="mt-2 mb-12 text-center z-10">
+      <h2 className="text-xs text-gray-600 leading-4">
+        가입을 진행할 경우,{" "}
+        <Link href={"/terms"} className="font-normal underline">
+          서비스 약관
+        </Link>{" "}
+        및{" "}
+        <Link href={"/terms/privacy-policy"} className="font-normal underline">
+          개인정보 처리방침
+        </Link>
+        에<br /> 동의한 것으로 간주합니다
+        <button onClick={() => adminAccess("sample1")}>.</button>
+      </h2>
+    </div>
   );
 }

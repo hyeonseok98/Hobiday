@@ -14,7 +14,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "hobiday-bucket.s3.ap-northeast-2.amazonaws.com",
+        hostname: "cdn.hobiday.site",
         pathname: "/**",
       },
       {

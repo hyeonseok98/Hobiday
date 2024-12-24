@@ -51,7 +51,7 @@ export const postAddWishlist = async (performId: string) => {
  * @param performId 공연 ID
  * @returns 서버의 위시리스트 삭제에 따른 응답
  */
-export const removeFromWishlist = async (performId: string) => {
+export const deleteFromWishlist = async (performId: string) => {
   try {
     const response = await apiClient.delete(ENDPOINTS.WISHLIST.DELETE(performId));
     return response.data.result;

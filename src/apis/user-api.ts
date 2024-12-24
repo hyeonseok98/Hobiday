@@ -1,4 +1,4 @@
-import { CheckNicknameResponse } from "@/types/user";
+import { CheckNicknameResponse, FollowProfile } from "@/types/user";
 import { handleApiError } from "@/utils/api-error/error-handler";
 import { apiClient } from ".";
 import { ENDPOINTS } from "./end-points";
@@ -31,10 +31,10 @@ export const getProfileById = async (profileId: number) => {
 };
 
 // 팔로잉 조회
-export const getFollowingById = async (profileId: number) => {
+export const getFollowingById = async (profileId: number): Promise<FollowProfile[]> => {
   try {
     const response = await apiClient.get(ENDPOINTS.PROFILES.GET.FOLLOWING(profileId));
-    console.log(response.data.result);
+    console.log("following: ", response.data.result);
     return response.data.result;
   } catch (error) {
     throw new Error(handleApiError(error));
@@ -42,20 +42,23 @@ export const getFollowingById = async (profileId: number) => {
 };
 
 // 팔로워 조회
-export const getFollowerById = async (profileId: number) => {
+export const getFollowerById = async (profileId: number): Promise<FollowProfile[]> => {
   try {
     const response = await apiClient.get(ENDPOINTS.PROFILES.GET.FOLLOWERS(profileId));
+    console.log("follower: ", response.data.result);
     return response.data.result;
   } catch (error) {
     throw new Error(handleApiError(error));
   }
 };
 
+// 로그아웃
 export const userLogout = async () => {
   const response = await apiClient.delete(ENDPOINTS.USERS.LOGOUT);
   return response;
 };
 
+// 프로필 수정
 export const updateMyProfile = async (data: { [key: string]: string | string[] }) => {
   const response = await apiClient.put(ENDPOINTS.PROFILES.UPDATE, data);
   console.log("updateAPI", response.data);

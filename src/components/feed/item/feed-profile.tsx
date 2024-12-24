@@ -1,12 +1,11 @@
 "use client";
 
-import { followToggle, getFollowingById } from "@/apis/user-api";
 import { useUserStore } from "@/stores/useUserStore";
 import { AllFeeds } from "@/types/feed/feed.type";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import FeedMenuModal from "../modal/feed-menu";
+import { useFollowingList, useFollowToggleMutation } from "@/hooks/user/use-profile-update";
 
 type ProfileProps = {
   feed: AllFeeds;
@@ -16,39 +15,15 @@ export default function FeedProfile({ feed }: ProfileProps) {
   const router = useRouter();
   const user = useUserStore((state) => state.user);
   const isMe = user ? user.profileId === feed.profileId : false;
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchFollowingStatus = async () => {
-      if (!user || isMe) return;
-      try {
-        setLoading(true);
-        const followingList = await getFollowingById(user.profileId);
-        setIsFollowing(followingList.includes(feed.profileId));
-      } catch (error) {
-        console.error("Failed to fetch following status:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const followMutation = useFollowToggleMutation();
+  const { data: followingList = [] } = useFollowingList(user?.profileId || 0);
 
-    fetchFollowingStatus();
-  }, [user, feed.profileId, isMe]);
+  const isFollowing = followingList.some((profile) => profile.profileId === feed.profileId && profile.following);
 
   async function handleFollowToggle() {
-    if (!user || loading) return;
-
-    try {
-      setLoading(true);
-      await followToggle(feed.profileId);
-      console.log("follow toggle success");
-      setIsFollowing((prev) => !prev);
-    } catch (error) {
-      console.error("Failed to toggle follow:", error);
-    } finally {
-      setLoading(false);
-    }
+    if (!user || followMutation.isPending) return;
+    followMutation.mutate(feed.profileId);
   }
 
   function navigateToProfile() {
@@ -63,7 +38,7 @@ export default function FeedProfile({ feed }: ProfileProps) {
           alt={`${feed.profileName} profile`}
           width={40}
           height={40}
-          className="rounded-full w-10 h-10"
+          className="rounded-full w-10 h-10 object-cover"
           unoptimized
         />
         <div className="font-semibold mx-2">{feed.profileName}</div>
@@ -74,12 +49,12 @@ export default function FeedProfile({ feed }: ProfileProps) {
       ) : (
         <button
           className={`text-sm font-semibold hover:underline mr-4 bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent ${
-            loading ? "cursor-not-allowed" : ""
+            followMutation.isPending ? "cursor-not-allowed" : ""
           }`}
           onClick={handleFollowToggle}
-          disabled={loading} // 로딩 중 버튼 비활성화
+          disabled={followMutation.isPending} // 로딩 중 버튼 비활성화
         >
-          {loading ? "처리 중..." : isFollowing ? "팔로잉" : "팔로우"}
+          {followMutation.isPending ? "처리 중..." : isFollowing ? "팔로잉" : "팔로우"}
         </button>
       )}
     </div>

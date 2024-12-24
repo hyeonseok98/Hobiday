@@ -1,49 +1,46 @@
 "use client";
 
-import { getFollowingById } from "@/apis/user-api";
+import LoadingSpinner from "@/components/commons/spinner";
 import UserFollowCard from "@/components/follow";
+import { useFollowerList } from "@/hooks/user/use-profile-update";
 import { useUserStore } from "@/stores/useUserStore";
-import { useEffect, useState } from "react";
 
 interface UserData {
   profileId: number;
   profileNickName: string;
-  // profileIntroduction: string | null;
+  profileIntroduction: string | null;
   profileImageUrl: string | null;
-  isFollowing: boolean;
+  following: boolean;
 }
 
 export default function FollowerList() {
-  const { user } = useUserStore();
-  const [followingList, setFollowingList] = useState<UserData[]>([]);
+  const user = useUserStore((state) => state.user);
+  const currentUserProfileId = user?.profileId;
+  const profileId = currentUserProfileId ?? 0;
+  const { data: followerList = [], isLoading, isError } = useFollowerList(profileId);
 
-  useEffect(() => {
-    async function fetchFollowing() {
-      if (!user) return;
-      try {
-        const data: UserData[] = await getFollowingById(user.profileId);
-        console.log("follower List", data);
-        setFollowingList(data);
-      } catch (error) {
-        console.error("Failed to fetch following list", error);
-      }
-    }
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-[300px]">
+        <LoadingSpinner size={40} />
+      </div>
+    );
+  }
 
-    if (user?.profileId) {
-      fetchFollowing();
-    }
-  }, [user]);
+  if (isError) {
+    return <div className="flex justify-center items-center h-[300px]">데이터를 불러오는데 문제가 생겼습니다...</div>;
+  }
 
   return (
     <div className="border-t border-t-gray-100">
-      {followingList.map((user) => (
+      {followerList.map((user) => (
         <UserFollowCard
           key={user.profileId}
           profileId={user.profileId}
           profileImageUrl={user.profileImageUrl}
           profileNickname={user.profileNickName}
-          // profileIntroduction={user.profileIntroduction}
-          isFollowing={user.isFollowing}
+          profileIntroduction={user.profileIntroduction}
+          isFollowing={user.following}
           onFollowToggle={() => console.log("Follow Toggle")}
         />
       ))}

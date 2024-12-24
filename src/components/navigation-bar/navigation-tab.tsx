@@ -4,8 +4,8 @@ import Link from "next/link";
 type NavigationTabProps = {
   name: string;
   href: string;
-  defaultIcon: React.ElementType;
-  pressedIcon: React.ElementType;
+  defaultIcon: React.ReactElement;
+  pressedIcon: React.ReactElement;
   isActive: boolean;
 };
 
@@ -24,9 +24,7 @@ export default function NavigationTab({ ...props }: NavigationTabProps) {
       aria-selected={isActive} // 활성화된 탭 스크린 리더에 표시
       aria-current={isActive ? "page" : undefined}
     >
-      <div className="flex justify-center items-center w-6 h-6">
-        <Icon className={`${isActive ? "fill-primary" : "fill-transparent"}`} />
-      </div>
+      <div className="flex justify-center items-center w-6 h-6">{Icon}</div>
       <span className={`text-xs font-semibold ${isActive ? "text-primary" : "text-gray-400"}`}>{name}</span>
     </Link>
   );

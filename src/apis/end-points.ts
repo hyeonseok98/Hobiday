@@ -2,7 +2,7 @@ import { API_BASE_URL } from "./index";
 
 export const ENDPOINTS = {
   PERFORMANCES: {
-    GET_ALL: `${API_BASE_URL}/api/performs`,
+    GET_ALL: `${API_BASE_URL}/api/performs/deadline`,
     GENRE: `${API_BASE_URL}/api/performs/genre`,
     GET_BY_ID: (performId: string) => `${API_BASE_URL}/api/performs/${performId}`,
     SEARCH: (keyword: string) => `/api/performs/search?keyword=${keyword}`,
@@ -23,6 +23,7 @@ export const ENDPOINTS = {
       LATEST: `${API_BASE_URL}/api/feeds`,
       POPULAR: `${API_BASE_URL}/api/feeds/likes`,
       BY_ID: (profileId: number) => `${API_BASE_URL}/api/profiles/${profileId}/feeds`,
+      BY_PERFORM_ID: (performId: string) => `${API_BASE_URL}/api/performs/feeds/${performId}`, // 공연별 피드 조회
       DETAIL: (feedId: number) => `${API_BASE_URL}/api/profiles/feeds/${feedId}`, // 피드 상세 페이지
     },
     CREATE: `${API_BASE_URL}/api/feeds`, // 피드 등록
@@ -32,7 +33,7 @@ export const ENDPOINTS = {
     LIKE: (feedId: number) => `${API_BASE_URL}/api/likes/${feedId}`, // 피드 좋아요
   },
   COMMENT: {
-    GET: (feedId: string) => `${API_BASE_URL}/api/comments/${feedId}`, // 댓글 조회
+    GET: (feedId: number) => `${API_BASE_URL}/api/comments/${feedId}`, // 댓글 조회
     CREATE: (feedId: number) => `${API_BASE_URL}/api/comments/${feedId}`, // 댓글 등록
     UPDATE: (commentId: number) => `${API_BASE_URL}/api/comments/${commentId}`, // 댓글 수정
     DELETE: (commentId: number) => `${API_BASE_URL}/api/comments/${commentId}`, // 댓글 삭제

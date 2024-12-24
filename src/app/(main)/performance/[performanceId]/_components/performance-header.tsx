@@ -1,14 +1,13 @@
 import { CalendarMonth, Location } from "@/assets/svgr-icons";
-import FeedGradation from "@/assets/svgr-icons/FeedGradation";
+import FeedGradation from "@/assets/svgr-icons/FeedsGradation";
 import LikeGradientDefault from "@/assets/svgr-icons/like-gradient-default";
 import LikeGradientPressed from "@/assets/svgr-icons/like-gradient-pressed";
 import Chip from "@/components/commons/chip";
 import Gap from "@/components/commons/gap";
 import Icon from "@/components/commons/icons";
 import { SectionLayout } from "@/components/layout";
-import { useAddWishlistMutation, useRemoveWishlistMutation } from "@/hooks/wishlist/use-wishlist-query";
+import { useToggleWishlistMutation } from "@/hooks/wishlist/use-wishlist-query";
 import Link from "next/link";
-import { useState } from "react";
 
 interface Performance {
   genre: string;
@@ -23,37 +22,14 @@ interface Performance {
 }
 
 export default function PerformanceDetailHeader({ performance }: { performance: Performance }) {
-  const {
-    genre,
-    name,
-    location,
-    dateStart,
-    dateEnd,
-    likeCounts,
-    performanceId,
-    feedCounts,
-    isLiked: initialLiked,
-  } = performance;
+  const { genre, name, location, dateStart, dateEnd, likeCounts, performanceId, feedCounts, isLiked } = performance;
 
-  console.log(initialLiked);
-
-  const addWishlistMutation = useAddWishlistMutation();
-  const removeWishlistMutation = useRemoveWishlistMutation();
-
-  const [wishCount, setWishCount] = useState(likeCounts);
-  const [isLiked, setIsLiked] = useState(initialLiked);
+  const toggleWishlistMutation = useToggleWishlistMutation();
 
   const handleLikeToggle = () => {
-    const mutation = isLiked ? removeWishlistMutation : addWishlistMutation;
-
-    mutation.mutate(performanceId, {
-      onSuccess: () => {
-        setIsLiked((prev) => !prev);
-        setWishCount((prev) => prev + (isLiked ? -1 : 1));
-      },
-      onError: (error) => {
-        console.error(`위시리스트 ${isLiked ? "제거" : "추가"} 실패:`, error);
-      },
+    toggleWishlistMutation.mutate({
+      performanceId,
+      isCurrentlyLiked: performance.isLiked,
     });
   };
 
@@ -86,7 +62,7 @@ export default function PerformanceDetailHeader({ performance }: { performance: 
             {isLiked ? <LikeGradientPressed width={33} height={31} /> : <LikeGradientDefault width={33} height={31} />}
           </Icon>
           <p>
-            위시 <span>{wishCount}</span>
+            위시 <span>{likeCounts}</span>
           </p>
         </div>
         <div className="h-20 w-[1px] bg-gray-300 mx-4" />

@@ -7,7 +7,7 @@ export default function TermPage() {
   };
 
   return (
-    <MainLayout headerProps={headerProps}>
+    <MainLayout headerProps={headerProps} navigationBarVisible={false}>
       <div className="px-4">
         <section className="mb-6">
           <h2 className="text-lg font-semibold mb-2">제 1조 목적</h2>
@@ -71,7 +71,7 @@ export default function TermPage() {
         <section className="mb-6">
           <h2 className="text-lg font-semibold mb-2">제 5조 회원의 의무</h2>
           <div className="pl-4">
-            <p>① 회원은 다음 행위를 하여서는 안 됩니다:</p>
+            <p>① 회원은 다음 행위를 하여서는 안 됩니다.</p>
             <ul className="list-disc pl-6">
               <li>타인의 정보 도용.</li>
               <li>부적절한 콘텐츠 업로드(예: 욕설, 폭력, 음란물).</li>
@@ -98,7 +98,7 @@ export default function TermPage() {
         <section className="mb-6">
           <h2 className="text-lg font-semibold mb-2">제 7조 피드 및 콘텐츠</h2>
           <div className="pl-4">
-            <p>① 회원은 서비스 내 피드 작성 시 다음 사항을 준수해야 합니다:</p>
+            <p>① 회원은 서비스 내 피드 작성 시 다음 사항을 준수해야 합니다.</p>
             <ul className="list-disc pl-6">
               <li>피드 내용은 공백 포함 최소 10자~최대 2,200자까지 작성 가능합니다.</li>
               <li>최대 15개의 해시태그를 추가할 수 있으며, 각 태그는 2~20자로 제한됩니다.</li>
@@ -119,10 +119,10 @@ export default function TermPage() {
         <section className="mb-6">
           <h2 className="text-lg font-semibold mb-2">제 9조 면책사항</h2>
           <div className="pl-4">
-            <p>① 회사는 다음 사항에 대해 책임을 지지 않습니다:</p>
+            <p>① 회사는 다음 사항에 대해 책임을 지지 않습니다.</p>
             <ul className="list-disc pl-6">
-              <li>회원 간의 분쟁 및 거래.</li>
-              <li>천재지변, 서버 장애 등 불가항력으로 인한 서비스 중단.</li>
+              <li>회원 간의 분쟁 및 거래</li>
+              <li>천재지변, 서버 장애 등 불가항력으로 인한 서비스 중단</li>
             </ul>
             <p>② 회원이 본 약관 및 관련 법령을 위반하여 발생한 손해에 대한 책임은 회원 본인에게 있습니다.</p>
           </div>

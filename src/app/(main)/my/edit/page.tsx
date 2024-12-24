@@ -6,22 +6,28 @@ import Icon from "@/components/commons/icons";
 import LoadingSpinner from "@/components/commons/spinner";
 import useProfileImageUpload from "@/hooks/user/use-profile-image-upload";
 import cn from "@/lib/tailwind-cn";
-import { useUserStore } from "@/stores/useUserStore";
+import { Profile, useUserStore } from "@/stores/useUserStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import EditProfileGenres from "./_components/edit-genres";
 import EditProfileImage from "./_components/edit-image";
 import EditProfileIntroduction from "./_components/edit-introduction";
 import EditProfileName from "./_components/edit-name";
+import { useUpdateProfileMutation } from "@/hooks/user/use-profile-update";
+import { useQueryClient } from "@tanstack/react-query";
+import { PROFILE_KEYS } from "@/hooks/queries";
 
 export default function ProfileEditPage() {
   const { user, setUser } = useUserStore();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const { uploadImage, isLoading: isUploading } = useProfileImageUpload();
+  const { mutate: updateProfile } = useUpdateProfileMutation();
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   function handleGoBack() {
-    router.back();
+    router.push("/my");
   }
 
   if (!user) {
@@ -32,6 +38,11 @@ export default function ProfileEditPage() {
     );
   }
 
+  function handleImageSelect(file: File) {
+    setSelectedImage(file);
+    setPreviewUrl(URL.createObjectURL(file));
+  }
+
   async function handleUpload() {
     if (!selectedImage) {
       alert("사진을 업로드해주세요.");
@@ -39,24 +50,24 @@ export default function ProfileEditPage() {
     }
 
     try {
-      const uploadedUrl = await uploadImage(selectedImage);
-      console.log("업로드 성공");
-      console.log("uploadedUrl: ", uploadedUrl);
-      const currentUser = useUserStore.getState().user;
-      if (!currentUser) {
-        console.error("User is null. Cannot update profileImageUrl.");
-        return;
-      }
+      const uploadedImageUrl = await uploadImage(selectedImage);
 
-      setUser({
-        ...currentUser,
-        profileImageUrl: uploadedUrl,
-      });
+      updateProfile(
+        { profileImageFilePath: uploadedImageUrl },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [PROFILE_KEYS.myProfile] });
 
-      await updateMyProfile({ profileImageFilePath: uploadedUrl });
-
-      alert("업로드 성공");
-      router.push("/my");
+            alert("업로드 성공");
+          },
+          onError: () => {
+            alert("업로드 실패");
+          },
+          onSettled: () => {
+            // setPreviewUrl(null);
+          },
+        },
+      );
     } catch (err) {
       console.error("업로드 실패", err);
     }
@@ -86,8 +97,8 @@ export default function ProfileEditPage() {
         </header>
         <div className="w-full mb-1">
           <EditProfileImage
-            profileImageUrl={user.profileImageUrl}
-            onImageSelect={(file: File) => setSelectedImage(file)}
+            profileImageUrl={previewUrl || user.profileImageUrl}
+            onImageSelect={handleImageSelect}
             profileNickname={user.profileNickname}
           />
           <EditProfileName profileNickname={user.profileNickname} />

@@ -1,5 +1,6 @@
 "use client";
 
+import LoadingSpinner from "@/components/commons/spinner";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -20,7 +21,6 @@ async function checkRegistration(accessToken: string) {
     });
     return response.data.result.register;
   } catch (error: any) {
-    console.log(error);
     throw new Error(error.response?.data?.message || "Registration check failed");
   }
 }
@@ -47,7 +47,7 @@ export default function RegistrationForm() {
           }
         })
         .catch(() => {
-          console.log("로그인 오류 발생");
+          console.error("로그인 오류 발생");
           router.push("/login");
         });
     } else {
@@ -57,8 +57,9 @@ export default function RegistrationForm() {
   }, [router]);
 
   return (
-    <>
-      <h1>Registration Form Page</h1>
-    </>
+    <div className="flex flex-col justify-center items-center w-full min-h-dvh gap-4">
+      <LoadingSpinner size={60} />
+      <h2 className="text-gray-600">로그인 중입니다. 잠시만 기다려 주세요!</h2>
+    </div>
   );
 }

@@ -15,6 +15,9 @@ const pretendard = localFont({
 export const metadata: Metadata = {
   title: "Hobiday",
   description: "Hobiday Project",
+  icons: {
+    icon: "/img/logo-image.png",
+  },
 };
 
 export default function RootLayout({

@@ -1,8 +1,8 @@
-import { deleteComment, updateComment } from "@/apis/comment-api";
 import { useModal } from "@/contexts";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Modal from "../modal";
+import { useDeleteCommentMutation, useUpdateCommentMutation } from "@/hooks/comment/use-comment-query";
 
 interface CommentCardProps {
   id: number;
@@ -10,17 +10,9 @@ interface CommentCardProps {
   profileName: string;
   profileImageUrl: string;
   relativeTime: string;
-  fetchComments: () => void;
 }
 
-export default function CommentCard({
-  id,
-  contents,
-  profileName,
-  profileImageUrl,
-  relativeTime,
-  fetchComments,
-}: CommentCardProps) {
+export default function CommentCard({ id, contents, profileName, profileImageUrl, relativeTime }: CommentCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -30,6 +22,9 @@ export default function CommentCard({
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
 
+  const updateCommentMutation = useUpdateCommentMutation();
+  const deleteCommentMutation = useDeleteCommentMutation();
+
   // 텍스트 컨텐츠가 3줄 이상인지 확인
   useEffect(() => {
     if (contentRef.current) {
@@ -38,33 +33,39 @@ export default function CommentCard({
     }
   }, [contents]);
 
-  async function handleUpdateComment() {
-    try {
-      const params = {
-        commentId: id,
-        data: { contents: editedContents },
-      };
-      await updateComment(params);
-      setIsEditing(false);
-      alert("댓글 수정 성공");
-      await fetchComments();
-    } catch (error) {
-      console.error("댓글 수정 중 오류 발생:", error);
-      alert("댓글 수정에 실패했습니다.");
-    }
-  }
+  // 댓글 수정
+  const handleUpdateComment = () => {
+    updateCommentMutation.mutate(
+      { commentId: id, data: { contents: editedContents } },
+      {
+        onSuccess: () => {
+          setIsEditing(false);
+          alert("댓글 수정 성공");
+        },
+        onError: (error) => {
+          console.error("댓글 수정 중 오류 발생:", error);
+          alert("댓글 수정에 실패했습니다.");
+        },
+      },
+    );
+  };
 
-  async function handleDeleteComment() {
-    try {
-      await deleteComment(id);
-      alert("댓글 삭제 성공");
-    } catch (error) {
-      console.error("댓글 삭제 중 오류 발생:", error);
-      alert("댓글 삭제에 실패했습니다.");
-    }
-    handleDeleteModalClose();
-    await fetchComments();
-  }
+  // 댓글 삭제
+  const handleDeleteComment = () => {
+    deleteCommentMutation.mutate(id, {
+      onSuccess: () => {
+        alert("댓글 삭제 성공");
+      },
+      onError: (error) => {
+        console.error("댓글 삭제 중 오류 발생:", error);
+        alert("댓글 삭제에 실패했습니다.");
+      },
+      onSettled: () => {
+        // 항상 모달 닫기
+        handleDeleteModalClose();
+      },
+    });
+  };
 
   function handleDeleteModalClose() {
     setIsDeleteModalOpen(false);
@@ -77,7 +78,7 @@ export default function CommentCard({
       {/* 유저 프로필 */}
       <div className="flex items-center mb-3">
         <Image
-          src={profileImageUrl || "https://via.placeholder.com/40"}
+          src={profileImageUrl}
           alt={`${profileName} profile`}
           width={28}
           height={28}

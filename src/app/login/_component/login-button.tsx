@@ -22,13 +22,13 @@ export default function LoginButton() {
     window.location.href = redirectUri;
   }
   return (
-    <section className="flex flex-col justify-center items-center mt-28 gap-2">
-      <button onClick={kakaoLoginHandler} className="bg-kakao w-[330px] rounded-full font-normal text-black py-3">
+    <section className="flex flex-col justify-center items-center w-full px-4 py-[10px] gap-2 mt-[10px] z-10">
+      <button onClick={kakaoLoginHandler} className="bg-kakao max-w-[330px] w-full py-[14.5px] rounded-full">
         <div className="flex justify-center items-center">
           <Icon size={24}>
             <KakaoLogo />
           </Icon>
-          <h2 className="text-sm ml-1">카카오톡으로 5초만에 시작하기</h2>
+          <h3 className="font-semibold text-black ml-2">카카오톡으로 시작하기</h3>
         </div>
       </button>
     </section>

@@ -1,78 +1,59 @@
 "use client";
 
-import { createComment, fetchComment } from "@/apis/comment-api";
 import CommentCard from "@/components/comment";
+import LoadingSpinner from "@/components/commons/spinner";
+import { useAddCommentMutation, useAllCommentQuery } from "@/hooks/comment/use-comment-query";
 import { useUserStore } from "@/stores/useUserStore";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-
-interface CommentCardProps {
-  id: number;
-  contents: string;
-  profileName: string;
-  profileImageUrl: string;
-  relativeTime: string;
-}
+import { useState } from "react";
 
 export default function CommentPage() {
   const searchParams = useSearchParams();
-  const feedId = searchParams.get("feedId");
+  const feedId = Number(searchParams.get("feedId"));
   const { user } = useUserStore();
   const [comment, setComment] = useState("");
-  const [allComments, setAllComments] = useState<CommentCardProps[]>([]);
-  const [loading, setLoading] = useState(true);
+  const addCommentMutation = useAddCommentMutation();
 
-  const fetchComments = async () => {
-    try {
-      if (!feedId) {
-        throw new Error("피드 ID가 없습니다.");
-      }
+  // 댓글 데이터 가져오기
+  const { data: allComment, isLoading: isAllCommentLoading, isError: isAllCommentError } = useAllCommentQuery(feedId);
 
-      const response = await fetchComment(feedId);
-      console.log(response);
-      setAllComments(response.result);
-    } catch (error) {
-      console.error("댓글 조회 중 오류 발생:", error);
-      alert("댓글을 불러오는 데 실패했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const allComments = allComment;
+  const isLoading = isAllCommentLoading;
+  const isError = isAllCommentError;
 
-  useEffect(() => {
-    fetchComments();
-  }, [feedId]);
-
-  if (loading) {
-    return <div>댓글을 불러오는 중입니다...</div>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-content">
+        <LoadingSpinner size={40} />
+      </div>
+    );
   }
 
-  const handleCommentSubmit = async () => {
-    if (!comment.trim()) {
-      alert("댓글 내용을 입력해주세요.");
-      return;
-    }
-    try {
-      const params = {
-        feedId: Number(feedId),
-        data: { contents: comment },
-      };
+  if (isError) {
+    return <div className="flex justify-center items-center h-content">데이터를 불러오는데 문제가 생겼습니다...</div>;
+  }
 
-      await createComment(params);
-      alert("댓글 등록 성공");
-      setComment("");
-      await fetchComments();
-    } catch (error) {
-      console.error("댓글 등록 중 오류 발생:", error);
-      alert("댓글 등록에 실패했습니다. 다시 시도해주세요.");
-    }
+  const handleCommentSubmit = () => {
+    addCommentMutation.mutate(
+      { feedId, data: { contents: comment } },
+      {
+        onSuccess: () => {
+          alert("댓글 등록 성공");
+          setComment("");
+        },
+        onError: (error) => {
+          console.error("댓글 등록 중 오류 발생:", error);
+          alert("댓글 등록에 실패했습니다. 다시 시도해주세요.");
+        },
+      },
+    );
   };
 
   return (
     <>
       {/* 댓글 데이터 표시 */}
       <div className="overflow-y-auto">
-        {allComments.length > 0 ? (
+        {allComments && allComments.length > 0 ? (
           allComments.map((comment) => (
             <CommentCard
               id={comment.id}
@@ -81,11 +62,10 @@ export default function CommentPage() {
               profileName={comment.profileName}
               relativeTime={comment.relativeTime}
               contents={comment.contents}
-              fetchComments={fetchComments}
             />
           ))
         ) : (
-          <div>댓글이 없습니다.</div>
+          <div className="flex justify-center items-center h-content">댓글이 없습니다.</div>
         )}
       </div>
 

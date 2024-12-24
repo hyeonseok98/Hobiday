@@ -1,43 +1,43 @@
 "use client";
 
 import cn from "@/lib/tailwind-cn";
-import NavigationTab from "./navigation-tab";
-
-import AccountDefault from "@/assets/icons/account-default.svg";
-import AccountPressed from "@/assets/icons/account-pressed.svg";
-import FeedDefault from "@/assets/icons/feed-default.svg";
-import FeedPressed from "@/assets/icons/feed-pressed.svg";
-import WishlistDefault from "@/assets/icons/heart-default.svg";
-import WishlistPressed from "@/assets/icons/heart-pressed.svg";
-import HomeDefault from "@/assets/icons/home-default.svg";
-import HomePressed from "@/assets/icons/home-pressed.svg";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
+import NavigationTab from "./navigation-tab";
+
+import AccountDefault from "@/assets/svgr-icons/AccountDefault";
+import AccountGradationIcon from "@/assets/svgr-icons/AccountGradation";
+import FeedDefault from "@/assets/svgr-icons/FeedDefault";
+import FeedGradationIcon from "@/assets/svgr-icons/FeedGradation";
+import HeartDefault from "@/assets/svgr-icons/HeartDefault";
+import HeartGradationIcon from "@/assets/svgr-icons/HeartGradation";
+import HomeDefault from "@/assets/svgr-icons/HomeDefault";
+import HomeGradationIcon from "@/assets/svgr-icons/HomeGradation";
 
 const NAVIGATION_TABS = [
   {
     name: "홈",
     path: "/",
-    defaultIcon: HomeDefault,
-    pressedIcon: HomePressed,
+    defaultIcon: <HomeDefault />,
+    pressedIcon: <HomeGradationIcon />,
   },
   {
     name: "피드",
     path: "/feed",
-    defaultIcon: FeedDefault,
-    pressedIcon: FeedPressed,
+    defaultIcon: <FeedDefault />,
+    pressedIcon: <FeedGradationIcon />,
   },
   {
     name: "위시리스트",
     path: "/wishlist",
-    defaultIcon: WishlistDefault,
-    pressedIcon: WishlistPressed,
+    defaultIcon: <HeartDefault />,
+    pressedIcon: <HeartGradationIcon />,
   },
   {
     name: "마이페이지",
     path: "/my",
-    defaultIcon: AccountDefault,
-    pressedIcon: AccountPressed,
+    defaultIcon: <AccountDefault />,
+    pressedIcon: <AccountGradationIcon />,
   },
 ];
 
@@ -59,7 +59,7 @@ export default function NavigationBar({ className }: { className?: string }) {
   return (
     <section
       className={cn(
-        "flex w-full h-20 justify-around items-center gap-[10px] bg-white border border-transparent border-t-gray-400",
+        "flex justify-evenly items-center w-full h-20 gap-[10px] bg-white border border-transparent border-t-gray-400",
         className,
       )}
     >

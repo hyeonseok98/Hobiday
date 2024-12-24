@@ -39,9 +39,6 @@ const useProfileImageUpload = (): UseImageUploadReturn => {
           },
         },
       );
-      console.log("file.type:", file.type);
-      console.log("file.name", file.name);
-      console.log(data.result);
       const { url: presignedUrl, filePath: fileUrl } = data.result;
 
       if (!presignedUrl) {
