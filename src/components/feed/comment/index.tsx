@@ -2,6 +2,7 @@
 
 import CommentCard from "@/components/comment";
 import LoadingSpinner from "@/components/commons/spinner";
+import Toast from "@/components/commons/toast";
 import { useAddCommentMutation, useAllCommentQuery } from "@/hooks/comment/use-comment-query";
 import { useUserStore } from "@/stores/useUserStore";
 import { useSearchParams } from "next/navigation";
@@ -13,6 +14,7 @@ export default function CommentPage() {
   const { user } = useUserStore();
   const [comment, setComment] = useState("");
   const addCommentMutation = useAddCommentMutation();
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
 
   // 댓글 데이터 가져오기
   const { data: allComment, isLoading: isAllCommentLoading, isError: isAllCommentError } = useAllCommentQuery(feedId);
@@ -30,6 +32,7 @@ export default function CommentPage() {
   }
 
   if (isError) {
+    setToast({ type: "Error", message: "화면을 불러올 수 없습니다. 다시 시도해 주세요." });
     return <div className="flex justify-center items-center h-content">데이터를 불러오는데 문제가 생겼습니다...</div>;
   }
 
@@ -38,12 +41,12 @@ export default function CommentPage() {
       { feedId, data: { contents: comment } },
       {
         onSuccess: () => {
-          alert("댓글 등록 성공");
+          setToast({ type: "Complete", message: "댓글이 등록되었습니다." });
           setComment("");
         },
         onError: (error) => {
           console.error("댓글 등록 중 오류 발생:", error);
-          alert("댓글 등록에 실패했습니다. 다시 시도해주세요.");
+          setToast({ type: "Error", message: "댓글 등록에 실패했습니다." });
         },
       },
     );
@@ -90,6 +93,7 @@ export default function CommentPage() {
           </button>
         </div>
       </div>
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </>
   );
 }

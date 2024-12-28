@@ -2,6 +2,7 @@ import SvgArrowForward from "@/assets/svgr-icons/ArrowForward";
 import BottomSheet from "@/components/bottom-sheet";
 import Button from "@/components/commons/button";
 import Chip from "@/components/commons/chip";
+import Toast from "@/components/commons/toast";
 import { FEED_CATEGORY } from "@/constants/category";
 import { useBottomSheet } from "@/contexts";
 import { useUpdateProfileMutation } from "@/hooks/user/use-profile-update";
@@ -17,6 +18,7 @@ export default function EditProfileGenres({ profileGenres }: ProfileGenresProps)
   const bottomSheetId = "editProfileGenres";
   const { categories, setCategories } = useOnboardingStore();
   const [selectedCategories, setSelectedCategories] = useState<string[]>(categories);
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
 
   const categoryList = FEED_CATEGORY;
   const { mutate: updateProfile } = useUpdateProfileMutation();
@@ -38,7 +40,7 @@ export default function EditProfileGenres({ profileGenres }: ProfileGenresProps)
 
   async function handleUpdate() {
     if (selectedCategories.length === 0) {
-      alert("관심사는 최소 1개 이상 선택해야 합니다.");
+      setToast({ type: "Error", message: "관심사는 최소 1개 이상 선택해야 합니다." });
       return;
     }
 
@@ -47,11 +49,10 @@ export default function EditProfileGenres({ profileGenres }: ProfileGenresProps)
       {
         onSuccess: () => {
           setCategories(selectedCategories);
-
-          alert("수정이 완료되었습니다.");
+          setToast({ type: "Complete", message: "프로필 수정이 완료되었습니다." });
         },
         onError: () => {
-          alert("수정에 실패했습니다.");
+          setToast({ type: "Error", message: "프로필 수정에 실패했습니다." });
         },
         onSettled: () => {
           close(bottomSheetId);
@@ -109,6 +110,8 @@ export default function EditProfileGenres({ profileGenres }: ProfileGenresProps)
           </BottomSheet.Contents>
         </BottomSheet>
       </div>
+
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </>
   );
 }

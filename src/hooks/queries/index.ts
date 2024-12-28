@@ -16,6 +16,7 @@ export const USER_KEYS = {
 export const PROFILE_KEYS = {
   PROFILE_REGISTRATION: "profile-registration",
   myProfile: "myProfile",
+  byId: ["profileById"] as const,
   updateMyProfile: ["updateMyProfile"] as const,
 };
 

@@ -5,9 +5,11 @@ import FeedItem from "@/components/feed/item";
 import { useLatestFeedsQuery, usePopularFeedsQuery } from "@/hooks/feed/use-feed-query";
 import { useState } from "react";
 import LoadingSpinner from "../commons/spinner";
+import Toast from "../commons/toast";
 
 export default function FeedPageList() {
   const [filter, setFilter] = useState("latest");
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
 
   const {
     data: latestFeeds,
@@ -33,6 +35,7 @@ export default function FeedPageList() {
   }
 
   if (isError) {
+    setToast({ type: "Error", message: "피드를 불러올 수 없습니다. 다시 시도해 주세요." });
     return <div className="flex justify-center items-center h-[300px]">데이터를 불러오는데 문제가 생겼습니다.</div>;
   }
 
@@ -85,6 +88,7 @@ export default function FeedPageList() {
           </FeedItem>
         ))}
       </div>
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </>
   );
 }

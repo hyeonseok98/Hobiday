@@ -3,6 +3,7 @@ import SvgPencil from "@/assets/svgr-icons/Pencil";
 import BottomSheet from "@/components/bottom-sheet";
 import Button from "@/components/commons/button";
 import TextField from "@/components/commons/text-field";
+import Toast from "@/components/commons/toast";
 import { useBottomSheet } from "@/contexts";
 import { PROFILE_KEYS } from "@/hooks/queries";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -30,6 +31,7 @@ export default function EditProfileName({ profileNickname }: ProfileNameProps) {
   const [message, setMessage] = useState("");
 
   const { data, isLoading } = useCheckNickname(debouncedValue);
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
 
   useEffect(() => {
     if (!debouncedValue) return;
@@ -66,10 +68,10 @@ export default function EditProfileName({ profileNickname }: ProfileNameProps) {
       },
       {
         onSuccess: () => {
-          alert("닉네임이 수정되었습니다.");
+          setToast({ type: "Complete", message: "프로필 수정이 완료되었습니다." });
         },
         onError: () => {
-          alert("닉네임 수정에 실패했습니다.");
+          setToast({ type: "Error", message: "프로필 수정에 실패했습니다." });
         },
         onSettled: () => {
           close(bottomSheetId);
@@ -112,6 +114,7 @@ export default function EditProfileName({ profileNickname }: ProfileNameProps) {
           </BottomSheet.Contents>
         </BottomSheet>
       </div>
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </>
   );
 }

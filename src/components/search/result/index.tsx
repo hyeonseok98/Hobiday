@@ -6,13 +6,16 @@ import Card from "@/components/card";
 import Chip from "@/components/commons/chip";
 import Icon from "@/components/commons/icons";
 import LoadingSpinner from "@/components/commons/spinner";
+import Toast from "@/components/commons/toast";
 import { SectionLayout } from "@/components/layout";
 import { useSearchPerformances } from "@/hooks";
 import { useSearchStore } from "@/stores/useSearchStore";
+import { useState } from "react";
 
 export default function SearchResult() {
   const { searchQuery } = useSearchStore();
   const { data: performances, isLoading, isError } = useSearchPerformances(searchQuery);
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
 
   if (isLoading) {
     return (
@@ -24,6 +27,7 @@ export default function SearchResult() {
   }
 
   if (isError) {
+    setToast({ type: "Error", message: "화면을 불러올 수 없습니다. 다시 시도해 주세요." });
     return <div className="flex flex-col justify-center items-center h-content">데이터를 불러오는데 실패했습니다.</div>;
   }
 
@@ -62,6 +66,7 @@ export default function SearchResult() {
           </p>
         </div>
       )}
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </>
   );
 }

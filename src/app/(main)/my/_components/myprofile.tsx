@@ -1,7 +1,5 @@
 "use client";
 
-import { fetchAllFeedById } from "@/apis/feed-api";
-import { getMyProfile } from "@/apis/user-api";
 import LoadingSpinner from "@/components/commons/spinner";
 import { useUserStore } from "@/stores/useUserStore";
 import Link from "next/link";
@@ -12,7 +10,7 @@ import ProfileGenres from "./profile-genres";
 import ProfileImage from "./profile-image";
 import ProfileName from "./profile-name";
 import ProfileStats from "./profile-stats";
-import { FeedData, FeedThumbnail } from "@/types/feed";
+import { FeedThumbnail } from "@/types/feed";
 import { useGetMyProfile } from "@/hooks/user/use-profile-update";
 import { useAllFeedsByProfileIdQuery } from "@/hooks/feed/use-feed-query";
 

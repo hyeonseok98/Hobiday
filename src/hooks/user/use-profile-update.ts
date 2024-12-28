@@ -1,7 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FOLLOW_KEYS, PROFILE_KEYS } from "../queries";
-import { followToggle, getFollowerById, getFollowingById, getMyProfile, updateMyProfile } from "@/apis/user-api";
-import { useUserStore } from "@/stores/useUserStore";
+import {
+  followToggle,
+  getFollowerById,
+  getFollowingById,
+  getMyProfile,
+  getProfileById,
+  updateMyProfile,
+} from "@/apis/user-api";
+import { Profile, useUserStore } from "@/stores/useUserStore";
 import React from "react";
 import { FollowProfile } from "@/types/user";
 
@@ -76,6 +83,17 @@ export const useGetMyProfile = () => {
   }, [data, setUser]);
 
   return queryResult;
+};
+
+export const useGetProfileById = (profileId: number) => {
+  return useQuery({
+    queryKey: [PROFILE_KEYS.byId, profileId],
+    queryFn: async () => {
+      const data = await getProfileById(profileId);
+      return data;
+    },
+    select: (data) => data || null,
+  });
 };
 
 // 팔로잉/팔로우 토글

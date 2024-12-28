@@ -2,6 +2,7 @@ import { updateMyProfile } from "@/apis/user-api";
 import SvgPencil from "@/assets/svgr-icons/Pencil";
 import BottomSheet from "@/components/bottom-sheet";
 import Button from "@/components/commons/button";
+import Toast from "@/components/commons/toast";
 import { useBottomSheet } from "@/contexts";
 import { useUpdateProfileMutation } from "@/hooks/user/use-profile-update";
 import { useState } from "react";
@@ -16,6 +17,8 @@ export default function EditProfileIntroduction({ profileIntroduction }: Profile
   const [content, setContent] = useState(profileIntroduction || "");
   const { mutate: updateProfile } = useUpdateProfileMutation();
 
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
+
   function handleContentChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setContent(e.target.value);
   }
@@ -27,10 +30,10 @@ export default function EditProfileIntroduction({ profileIntroduction }: Profile
       },
       {
         onSuccess: () => {
-          alert("수정이 완료되었습니다.");
+          setToast({ type: "Complete", message: "프로필 수정이 완료되었습니다." });
         },
         onError: () => {
-          alert("수정에 실패했습니다.");
+          setToast({ type: "Error", message: "프로필 수정에 실패했습니다." });
         },
         onSettled: () => {
           close(bottomSheetId);
@@ -84,6 +87,8 @@ export default function EditProfileIntroduction({ profileIntroduction }: Profile
           </BottomSheet.Contents>
         </BottomSheet>
       </div>
+
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </>
   );
 }

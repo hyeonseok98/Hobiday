@@ -9,12 +9,13 @@ import ImageUploader from "@/app/(main)/feed/upload/_component/image-uploader";
 import TextInput from "@/app/(main)/feed/upload/_component/text-input";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import Icon from "@/components/commons/icons";
+import Toast from "@/components/commons/toast";
 import useFeedRegistration from "@/hooks/feed/use-feed-upload";
 import usePresignedURL from "@/hooks/feed/use-image-upload";
 import cn from "@/lib/tailwind-cn";
 import useUploadTextStore from "@/stores/useUploadTextStore";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function UploadPage() {
   const router = useRouter();
@@ -34,6 +35,7 @@ export default function UploadPage() {
   } = useUploadTextStore();
   const { uploadImages, isLoading: isUploading } = usePresignedURL();
   const { registerFeed, isLoading: isRegistering } = useFeedRegistration();
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
 
   const searchParams = useSearchParams();
   const queryPerformId = searchParams.get("performId");
@@ -52,7 +54,6 @@ export default function UploadPage() {
       const fetchSelectedPerformance = async () => {
         try {
           const performanceInfo = await fetchPerformanceById(performId);
-          console.log("performanceInfo: ", performanceInfo);
           setSelectedPerformance(performanceInfo);
         } catch (error) {
           console.error("퍼포먼스 정보 불러오기 실패", error);
@@ -79,7 +80,7 @@ export default function UploadPage() {
 
   async function handleUpload() {
     if (photos.length === 0) {
-      alert("사진을 업로드해주세요.");
+      setToast({ type: "Error", message: "사진을 업로드해주세요." });
       return;
     }
 
@@ -102,18 +103,18 @@ export default function UploadPage() {
       if (feedId) {
         await updateFeed({ feedId, data: requestData });
         console.log("data: ", requestData);
-        alert("수정 성공");
+        setToast({ type: "Complete", message: "피드 업로드가 완료되었습니다." });
       } else {
         // 피드 등록
         await registerFeed(requestData);
-        alert("등록 성공");
+        setToast({ type: "Complete", message: "피드 업로드가 완료되었습니다." });
       }
       // 초기화
       useUploadTextStore.getState().reset();
       router.push("/feed");
     } catch (err) {
       console.error(feedId ? "수정 실패" : "등록 실패", err);
-      alert(feedId ? "수정 실패" : "등록 실패");
+      setToast({ type: "Error", message: "피드 업로드에 실패했습니다." });
     }
   }
 
@@ -139,6 +140,8 @@ export default function UploadPage() {
       <TextInput />
       <HashtagInput hashTags={hashTags} onAddHashTags={handleAddHashTags} onRemoveHashTag={handleRemoveHashTag} />
       <AddInfo />
+
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </div>
   );
 }

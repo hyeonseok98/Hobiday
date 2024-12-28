@@ -2,10 +2,13 @@
 
 import { userLogout } from "@/apis/user-api";
 import SvgArrowForward from "@/assets/svgr-icons/ArrowForward";
+import Toast from "@/components/commons/toast";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function ProfileSettingPage() {
   const router = useRouter();
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
 
   async function handleLogout() {
     try {
@@ -16,9 +19,9 @@ export default function ProfileSettingPage() {
         // 리프레시 쿠키 무효화
         document.cookie = "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
-        alert("로그아웃 되었습니다.");
         router.push("/login");
       } else {
+        setToast({ type: "Error", message: "로그아웃에 실패했습니다." });
         throw new Error("로그아웃에 실패했습니다.");
       }
     } catch (error) {
@@ -39,6 +42,7 @@ export default function ProfileSettingPage() {
           <SvgArrowForward />
         </div>
       </div>
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </div>
   );
 }

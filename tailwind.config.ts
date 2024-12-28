@@ -17,6 +17,7 @@ const config: Config = {
         textColor: "#212121",
         blue: {
           50: "#E5EFFD",
+          70: "#EDECFE",
           100: "#CBC7FA",
           200: "#B8B2FA",
           300: "#8C82F7",

@@ -1,12 +1,11 @@
 "use client";
 
-import { updateMyProfile } from "@/apis/user-api";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import Icon from "@/components/commons/icons";
 import LoadingSpinner from "@/components/commons/spinner";
 import useProfileImageUpload from "@/hooks/user/use-profile-image-upload";
 import cn from "@/lib/tailwind-cn";
-import { Profile, useUserStore } from "@/stores/useUserStore";
+import { useUserStore } from "@/stores/useUserStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import EditProfileGenres from "./_components/edit-genres";
@@ -16,15 +15,17 @@ import EditProfileName from "./_components/edit-name";
 import { useUpdateProfileMutation } from "@/hooks/user/use-profile-update";
 import { useQueryClient } from "@tanstack/react-query";
 import { PROFILE_KEYS } from "@/hooks/queries";
+import Toast from "@/components/commons/toast";
 
 export default function ProfileEditPage() {
-  const { user, setUser } = useUserStore();
+  const { user } = useUserStore();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const { uploadImage, isLoading: isUploading } = useProfileImageUpload();
   const { mutate: updateProfile } = useUpdateProfileMutation();
   const queryClient = useQueryClient();
   const router = useRouter();
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
 
   function handleGoBack() {
     router.push("/my");
@@ -45,7 +46,7 @@ export default function ProfileEditPage() {
 
   async function handleUpload() {
     if (!selectedImage) {
-      alert("사진을 업로드해주세요.");
+      setToast({ type: "Error", message: "사진을 업로드해주세요." });
       return;
     }
 
@@ -57,11 +58,10 @@ export default function ProfileEditPage() {
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [PROFILE_KEYS.myProfile] });
-
-            alert("업로드 성공");
+            setToast({ type: "Complete", message: "프로필 수정이 완료되었습니다." });
           },
           onError: () => {
-            alert("업로드 실패");
+            setToast({ type: "Error", message: "프로필 수정에 실패했습니다." });
           },
           onSettled: () => {
             // setPreviewUrl(null);
@@ -106,6 +106,7 @@ export default function ProfileEditPage() {
           <EditProfileGenres profileGenres={user.profileGenres} />
         </div>
       </div>
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </div>
   );
 }

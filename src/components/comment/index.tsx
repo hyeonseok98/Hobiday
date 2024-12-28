@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Modal from "../modal";
 import { useDeleteCommentMutation, useUpdateCommentMutation } from "@/hooks/comment/use-comment-query";
+import Toast from "../commons/toast";
 
 interface CommentCardProps {
   id: number;
@@ -21,6 +22,7 @@ export default function CommentCard({ id, contents, profileName, profileImageUrl
   const { isOpen, open, close } = useModal();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
 
   const updateCommentMutation = useUpdateCommentMutation();
   const deleteCommentMutation = useDeleteCommentMutation();
@@ -40,11 +42,11 @@ export default function CommentCard({ id, contents, profileName, profileImageUrl
       {
         onSuccess: () => {
           setIsEditing(false);
-          alert("댓글 수정 성공");
+          setToast({ type: "Complete", message: "댓글 수정이 완료되었습니다." });
         },
         onError: (error) => {
           console.error("댓글 수정 중 오류 발생:", error);
-          alert("댓글 수정에 실패했습니다.");
+          setToast({ type: "Error", message: "댓글 수정에 실패했습니다." });
         },
       },
     );
@@ -54,11 +56,11 @@ export default function CommentCard({ id, contents, profileName, profileImageUrl
   const handleDeleteComment = () => {
     deleteCommentMutation.mutate(id, {
       onSuccess: () => {
-        alert("댓글 삭제 성공");
+        setToast({ type: "Complete", message: "댓글이 삭제되었습니다." });
       },
       onError: (error) => {
         console.error("댓글 삭제 중 오류 발생:", error);
-        alert("댓글 삭제에 실패했습니다.");
+        setToast({ type: "Error", message: "댓글 삭제에 실패했습니다." });
       },
       onSettled: () => {
         // 항상 모달 닫기
@@ -162,6 +164,7 @@ export default function CommentCard({ id, contents, profileName, profileImageUrl
           </Modal.Buttons>
         </Modal>
       )}
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </div>
   );
 }

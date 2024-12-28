@@ -7,10 +7,14 @@ interface UserFollowCardProps {
   profileNickname: string;
   profileIntroduction: string | null;
   isFollowing: boolean;
-  onFollowToggle: () => void;
+  onFollowToggle: (profileId: number) => void;
 }
 
 export default function UserFollowCard(user: UserFollowCardProps) {
+  const handleToggle = () => {
+    user.onFollowToggle(user.profileId);
+  };
+
   return (
     <div className="flex items-center justify-between px-3 py-2">
       {/* Profile Image */}
@@ -32,7 +36,7 @@ export default function UserFollowCard(user: UserFollowCardProps) {
       </div>
 
       {/* Follow Button */}
-      <FollowButton isFollowing={user.isFollowing} onFollowToggle={user.onFollowToggle} />
+      <FollowButton isFollowing={user.isFollowing} onFollowToggle={handleToggle} />
     </div>
   );
 }

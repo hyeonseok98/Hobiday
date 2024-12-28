@@ -1,6 +1,7 @@
 import { deleteFeed } from "@/apis/feed-api";
 import DotsVertical from "@/assets/icons/dots-vertical.svg";
 import Icon from "@/components/commons/icons";
+import Toast from "@/components/commons/toast";
 import Modal from "@/components/modal";
 import { useModal } from "@/contexts";
 import useUploadTextStore from "@/stores/useUploadTextStore";
@@ -17,6 +18,7 @@ export default function FeedMenuModal({ feed }: FeedMenuProps) {
   const { isOpen, open, close } = useModal();
   const [selectedFeedId, setSelectedFeedId] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
   const { setPerformId, setContent, setCategory, setHashTags, setPhotos, setFileUrls, setFeedId } =
     useUploadTextStore();
 
@@ -36,10 +38,10 @@ export default function FeedMenuModal({ feed }: FeedMenuProps) {
   async function handleDeleteClick(feedId: number) {
     try {
       await deleteFeed(feedId);
-      alert("삭제 성공");
+      setToast({ type: "Complete", message: "피드가 삭제되었습니다." });
       router.push("/feed");
     } catch (error) {
-      alert("삭제 실패");
+      setToast({ type: "Error", message: "피드 삭제에 실패했습니다." });
       console.error(error);
     }
     handleDeleteModalClose();
@@ -99,6 +101,7 @@ export default function FeedMenuModal({ feed }: FeedMenuProps) {
           </Modal.Buttons>
         </Modal>
       )}
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </>
   );
 }

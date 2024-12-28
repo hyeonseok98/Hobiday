@@ -11,9 +11,11 @@ import { TAB_CATEGORY } from "@/constants/category";
 import { useAllWishlistQuery, useWishlistByGenreQuery } from "@/hooks/wishlist/use-wishlist-query";
 import { useState } from "react";
 import Tabs from "../../_components/tabs";
+import Toast from "@/components/commons/toast";
 
 export default function WishlistPage() {
   const [selectedTab, setSelectedTab] = useState(0);
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
 
   // "전체" 탭 데이터 가져오기
   const {
@@ -46,6 +48,7 @@ export default function WishlistPage() {
   }
 
   if (isError) {
+    setToast({ type: "Error", message: "화면을 불러올 수 없습니다. 다시 시도해 주세요." });
     return <div className="flex justify-center items-center h-content">데이터를 불러오는데 문제가 생겼습니다...</div>;
   }
 
@@ -84,6 +87,7 @@ export default function WishlistPage() {
           저장된 위시리스트가 없습니다.
         </div>
       )}
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </>
   );
 }

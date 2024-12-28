@@ -10,10 +10,12 @@ import { useAllPerformancesQuery, usePerformancesByGenreQuery } from "@/hooks";
 import { useState } from "react";
 import Tabs from "./tabs";
 import { useGetMyProfile } from "@/hooks/user/use-profile-update";
+import Toast from "@/components/commons/toast";
 
 export default function PerformanceList() {
   const { isLoading } = useGetMyProfile();
   const [selectedTab, setSelectedTab] = useState(0); // 초기 상태를 "전체"로 설정
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
 
   // "전체" 탭 데이터 가져오기
   const {
@@ -56,6 +58,7 @@ export default function PerformanceList() {
   }
 
   if (isError) {
+    setToast({ type: "Error", message: "화면을 불러올 수 없습니다. 다시 시도해 주세요." });
     return <div className="flex justify-center items-center h-[300px]">데이터를 불러오는데 문제가 생겼습니다...</div>;
   }
 
@@ -87,6 +90,8 @@ export default function PerformanceList() {
           </Card>
         ))}
       </SectionLayout>
+
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </>
   );
 }

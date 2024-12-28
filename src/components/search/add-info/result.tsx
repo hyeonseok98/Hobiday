@@ -10,6 +10,8 @@ import useUploadTextStore from "@/stores/useUploadTextStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import SearchCard from "../card";
+import LoadingSpinner from "@/components/commons/spinner";
+import Toast from "@/components/commons/toast";
 
 interface SelectPerformanceButtonProps {
   onConfirm: () => void;
@@ -35,12 +37,18 @@ export default function AddInfoSearchResult() {
   const [tempPerformance, setTempPerformance] = useState("");
 
   const { data: performances, isLoading, isError } = useSearchPerformances(searchQuery);
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
 
   if (isLoading) {
-    return <div className="text-center py-8">로딩 중...</div>;
+    return (
+      <div className="flex justify-center items-center h-content">
+        <LoadingSpinner size={40} />
+      </div>
+    );
   }
 
   if (isError) {
+    setToast({ type: "Error", message: "화면을 불러올 수 없습니다. 다시 시도해 주세요." });
     return <div className="text-center py-8 text-primary">데이터를 불러오는데 실패했습니다.</div>;
   }
 
@@ -115,6 +123,8 @@ export default function AddInfoSearchResult() {
       <div className="fixed bottom-24 left-0 right-0 w-[430px] mx-auto px-4">
         <SelectPerformanceButton onConfirm={handleConfirm} disabled={!tempPerformance} />
       </div>
+
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </SectionLayout>
   );
 }

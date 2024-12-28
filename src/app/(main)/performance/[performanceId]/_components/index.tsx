@@ -8,11 +8,14 @@ import { useParams } from "next/navigation";
 import BackGroundPoster from "./background-poster";
 import PerformanceDetailHeader from "./performance-header";
 import PerformanceInfo from "./performance-info";
+import Toast from "@/components/commons/toast";
+import { useState } from "react";
 
 export default function PerformanceDetail() {
   const params = useParams();
   const performanceId = params?.performanceId?.toString();
   const { data, isLoading, isError } = usePerformanceDetailAll(performanceId);
+  const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
 
   const facilityId = data?.facilityId;
   const {
@@ -30,6 +33,7 @@ export default function PerformanceDetail() {
   }
 
   if (isError || !data || isFacilityError || !facilityInfo) {
+    setToast({ type: "Error", message: "화면을 불러올 수 없습니다. 다시 시도해 주세요." });
     return <div className="flex justify-center items-center h-content">데이터를 불러오는데 문제가 생겼습니다...</div>;
   }
 
@@ -87,6 +91,7 @@ export default function PerformanceDetail() {
           </PerformanceInfo>
         </>
       ))}
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </section>
   );
 }
