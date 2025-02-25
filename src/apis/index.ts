@@ -1,3 +1,5 @@
+import { handleApiError } from "@/utils/api-error/error-handler";
+import { removeAuthTokens } from "@/utils/remove-auth-token";
 import axios from "axios";
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_URL || process.env.NEXT_PUBLIC_SERVER_URL;
@@ -43,9 +45,14 @@ apiClient.interceptors.response.use(
         return apiClient(currentRequest);
       } catch (refreshError) {
         console.error("Refresh Token expired or invalid", refreshError);
+        removeAuthTokens();
+        window.location.href = "/login";
         return Promise.reject(refreshError);
       }
     }
+
+    const errorMessage = handleApiError(error);
+    console.error("🚨 [API 에러 메시지]:", errorMessage);
 
     return Promise.reject(error);
   },

@@ -33,7 +33,7 @@ function CardImage({ src, alt, width, height, className }: CardImageProps) {
         className,
       )}
     >
-      <Image src={src} alt={alt} fill className="object-contain" />
+      <Image src={src} alt={alt} fill className="object-contain" quality={80} />
     </div>
   );
 }

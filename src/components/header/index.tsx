@@ -12,6 +12,7 @@ type IconType = {
   icon: ReactNode;
   path: string;
   size?: number;
+  alt?: string;
 };
 
 export type HeaderProps = {
@@ -42,9 +43,11 @@ export default function Header({
     <header className={cn("relative flex items-center justify-between w-full h-header px-4 py-2 bg-white", className)}>
       {/* 왼쪽: 아이콘들 */}
       <div className="flex items-center justify-start space-x-2">
-        {leftIcons.map(({ icon, path, size }, index) => (
-          <Link key={index} href={path} className="cursor-pointer">
-            <Icon size={size}>{icon}</Icon>
+        {leftIcons.map(({ icon, path, size, alt }, index) => (
+          <Link key={index} href={path} aria-label={alt || "이동 링크"} className="cursor-pointer">
+            <Icon size={size} alt={alt}>
+              {icon}
+            </Icon>
           </Link>
         ))}
         {showBackButton && (
@@ -61,9 +64,11 @@ export default function Header({
 
       {/* 오른쪽: 아이콘들 */}
       <div className="flex items-center justify-end gap-2">
-        {rightIcons.map(({ icon, path, size }, index) => (
-          <Link key={index} href={path} className="cursor-pointer">
-            <Icon size={size}>{icon}</Icon>
+        {rightIcons.map(({ icon, path, size, alt }, index) => (
+          <Link key={index} href={path} aria-label={alt || "이동 아이콘"} className="cursor-pointer">
+            <Icon size={size} alt={alt}>
+              {icon}
+            </Icon>
           </Link>
         ))}
         {/* 오른쪽: 텍스트 */}

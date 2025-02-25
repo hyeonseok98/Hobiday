@@ -4,13 +4,13 @@ import Location from "@/assets/icons/location.svg";
 import Card from "@/components/card";
 import Chip from "@/components/commons/chip";
 import LoadingSpinner from "@/components/commons/spinner";
+import Toast from "@/components/commons/toast";
 import { SectionLayout } from "@/components/layout";
 import { TAB_CATEGORY } from "@/constants/category";
 import { useAllPerformancesQuery, usePerformancesByGenreQuery } from "@/hooks";
+import { useGetMyProfile } from "@/hooks/user/use-profile-update";
 import { useState } from "react";
 import Tabs from "./tabs";
-import { useGetMyProfile } from "@/hooks/user/use-profile-update";
-import Toast from "@/components/commons/toast";
 
 export default function PerformanceList() {
   const { isLoading } = useGetMyProfile();

@@ -8,8 +8,8 @@ import PerformanceList from "./_components/performance-list";
 
 export default function HomePage() {
   const headerProps = {
-    leftIcons: [{ icon: <TextLogo />, path: "/" }],
-    rightIcons: [{ icon: <Search />, path: "/search", size: 24 }],
+    leftIcons: [{ icon: <TextLogo />, path: "/", alt: "Go main page" }],
+    rightIcons: [{ icon: <Search />, path: "/search", size: 24, alt: "Go search page" }],
   };
 
   const refreshToken = cookies().get("refreshToken");

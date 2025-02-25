@@ -17,6 +17,7 @@ export const ENDPOINTS = {
     REGISTRATION_CHECK: `${API_BASE_URL}/api/profiles/registration/check`,
     GET_TOKEN: `${API_BASE_URL}/api/token`,
     LOGOUT: `${API_BASE_URL}/api/members/logout`,
+    SIGNOUT: (memberId: number) => `${API_BASE_URL}/api/members/signout/${memberId}`,
   },
   FEED: {
     GET: {

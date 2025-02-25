@@ -6,12 +6,12 @@ import Card from "@/components/card";
 import Chip from "@/components/commons/chip";
 import Icon from "@/components/commons/icons";
 import LoadingSpinner from "@/components/commons/spinner";
+import Toast from "@/components/commons/toast";
 import { SectionLayout } from "@/components/layout";
 import { TAB_CATEGORY } from "@/constants/category";
 import { useAllWishlistQuery, useWishlistByGenreQuery } from "@/hooks/wishlist/use-wishlist-query";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Tabs from "../../_components/tabs";
-import Toast from "@/components/commons/toast";
 
 export default function WishlistPage() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -31,13 +31,16 @@ export default function WishlistPage() {
     isError: isWishlistByGenreError,
   } = useWishlistByGenreQuery(TAB_CATEGORY[selectedTab]?.name);
 
-  const wishlist = selectedTab === 0 ? allWishlist : wishlistByGenre;
+  const wishlist = useMemo(
+    () => (selectedTab === 0 ? allWishlist : wishlistByGenre),
+    [selectedTab, allWishlist, wishlistByGenre],
+  );
   const isLoading = selectedTab === 0 ? isAllWishlistLoading : isWishlistByGenreLoading;
   const isError = selectedTab === 0 ? isAllWishlistError : isWishlistByGenreError;
 
-  const handleTabClick = (category: { id: number; name: string }) => {
+  const handleTabClick = useCallback((category: { id: number; name: string }) => {
     setSelectedTab(category.id);
-  };
+  }, []);
 
   if (isLoading) {
     return (

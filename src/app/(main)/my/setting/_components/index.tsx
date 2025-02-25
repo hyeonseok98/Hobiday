@@ -1,31 +1,45 @@
 "use client";
 
-import { userLogout } from "@/apis/user-api";
+import { userLogout, userSignOut } from "@/apis/user-api";
 import SvgArrowForward from "@/assets/svgr-icons/ArrowForward";
 import Toast from "@/components/commons/toast";
+import { useUserStore } from "@/stores/useUserStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function ProfileSettingPage() {
   const router = useRouter();
   const [toast, setToast] = useState<{ type: "Complete" | "Error"; message: string } | null>(null);
+  const { user } = useUserStore();
 
   async function handleLogout() {
     try {
-      const response = await userLogout();
-
-      if (response.status == 200) {
-        localStorage.removeItem("accessToken");
-        // 리프레시 쿠키 무효화
-        document.cookie = "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-
-        router.push("/login");
-      } else {
-        setToast({ type: "Error", message: "로그아웃에 실패했습니다." });
-        throw new Error("로그아웃에 실패했습니다.");
-      }
+      await userLogout();
+      router.push("/login");
     } catch (error) {
-      console.error(error);
+      if (error instanceof Error) {
+        setToast({ type: "Error", message: error.message });
+      } else {
+        setToast({ type: "Error", message: "로그아웃 중 오류 발생" });
+      }
+    }
+  }
+
+  // 회원탈퇴
+  async function handleSignOut(memberId: number) {
+    if (!window.confirm("회원탈퇴를 진행할까요?")) {
+      return;
+    }
+
+    try {
+      await userSignOut(memberId);
+      router.push("/login");
+    } catch (error) {
+      if (error instanceof Error) {
+        setToast({ type: "Error", message: error.message });
+      } else {
+        setToast({ type: "Error", message: "회원탈퇴 중 오류 발생" });
+      }
     }
   }
 
@@ -37,7 +51,17 @@ export default function ProfileSettingPage() {
           <span className="font-semibold">로그아웃</span>
           <SvgArrowForward />
         </div>
-        <div className="flex justify-between items-center">
+        <div
+          className="flex justify-between items-center cursor-pointer"
+          onClick={() => {
+            if (!user?.memberId) {
+              setToast({ type: "Error", message: "회원 정보를 찾을 수 없습니다." });
+              return;
+            }
+
+            handleSignOut(user.memberId);
+          }}
+        >
           <span className="font-semibold">회원 탈퇴</span>
           <SvgArrowForward />
         </div>

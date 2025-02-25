@@ -23,6 +23,7 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
+    formats: ["image/avif", "image/webp"],
   },
   webpack(config) {
     config.module.rules.push({
