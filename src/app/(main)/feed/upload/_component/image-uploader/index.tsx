@@ -2,7 +2,7 @@
 
 import Icon from "@/components/commons/icons";
 import Toast from "@/components/commons/toast";
-import useUploadTextStore from "@/stores/useUploadTextStore";
+import useUploadTextStore from "@/stores/use-upload-text.store";
 import Image from "next/image";
 import { useState } from "react";
 import PlusCircle from "src/assets/icons/plus-circle.svg";

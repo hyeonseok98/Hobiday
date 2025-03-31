@@ -1,7 +1,7 @@
 "use client";
 
 import Location from "@/assets/icons/location.svg";
-import LikeGradientDefault from "@/assets/svgr-icons/like-gradient-default";
+import LikeGradientDefault from "@/assets/svgr-icons/LikeGradientDefault";
 import Card from "@/components/card";
 import Chip from "@/components/commons/chip";
 import Icon from "@/components/commons/icons";
@@ -68,7 +68,7 @@ export default function WishlistPage() {
         <SectionLayout className="flex flex-col py-4 gap-3">
           {wishlist.map((item) => (
             <Card key={item.wishListId} href={`/performance/${item.performanceId}`} className="w-full">
-              <Card.Image src={item.posterUrl} alt={item.performanceName} width={"w-[88px]"} height={"h-[88px]"} />
+              <Card.Image src={item.posterUrl} alt={item.performanceName} size="sm" />
               <Card.Content>
                 <Card.Category>
                   <Chip label={item.genreName} state="hashTag" />

@@ -1,11 +1,11 @@
 "use client";
 
-import { useUserStore } from "@/stores/useUserStore";
+import { useFollowingList, useFollowToggleMutation } from "@/hooks/user/use-profile-update";
+import { useUserStore } from "@/stores";
 import { AllFeeds } from "@/types/feed/feed.type";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import FeedMenuModal from "../modal/feed-menu";
-import { useFollowingList, useFollowToggleMutation } from "@/hooks/user/use-profile-update";
 
 type ProfileProps = {
   feed: AllFeeds;

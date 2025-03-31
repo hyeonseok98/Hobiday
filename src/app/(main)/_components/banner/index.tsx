@@ -26,16 +26,18 @@ export default function AdBanner() {
       >
         {AD_BANNERS.map((banner, index) => (
           <SwiperSlide key={banner.src}>
-            <div className="relative block w-[398px] h-[398px]">
+            <div className="relative block w-[398px] h-[398px] overflow-hidden">
               <Image
                 src={banner.src}
                 alt={banner.alt}
                 fill
                 className="object-cover"
-                priority={index === 0} // 첫 번째 이미지만 우선 로딩
-                loading={index === 0 ? "eager" : "lazy"} // 첫 슬라이드는 eager, 나머지는 lazy
+                sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 398px"
+                priority={index === 0}
+                loading={index === 0 ? "eager" : "lazy"}
                 quality={85}
               />
+              {index !== 0 && <div className="absolute inset-0 border-gray-200" />}
             </div>
           </SwiperSlide>
         ))}

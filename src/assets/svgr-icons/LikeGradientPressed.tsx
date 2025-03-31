@@ -13,8 +13,8 @@ export default function LikeGradientPressed({
     >
       <defs>
         <linearGradient id="heartGradientPressed" x1="50%" y1="0%" x2="50%" y2="100%">
-          <stop offset="0%" stopColor="currentColor" className="text-secondary" />
-          <stop offset="100%" stopColor="currentColor" className="text-primary" />
+          <stop offset="0%" stopColor="#B1F9F3" />
+          <stop offset="100%" stopColor="#5E50F4" />
         </linearGradient>
       </defs>
       <path

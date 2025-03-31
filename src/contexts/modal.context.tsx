@@ -14,18 +14,11 @@ export function ModalProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const open = () => setIsOpen(true);
-  function close(callback?: () => void) {
-    setIsOpen(false);
-    if (callback) callback();
-  }
+  const close = () => setIsOpen(false);
 
   // 모달 외부 영역 스크롤 방지
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = isOpen ? "hidden" : "";
 
     return () => {
       document.body.style.overflow = "";

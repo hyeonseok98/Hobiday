@@ -2,7 +2,7 @@
 
 import { fetchFeedById } from "@/apis/feed-api";
 import FeedItem from "@/components/feed/item";
-import { useUserStore } from "@/stores/useUserStore";
+import { useUserStore } from "@/stores";
 import { AllFeeds } from "@/types/feed/feed.type";
 import { useEffect, useState } from "react";
 

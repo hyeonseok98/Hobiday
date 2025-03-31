@@ -8,7 +8,7 @@ import ArrowBack from "@/assets/icons/arrow-back.svg";
 import CloseIcon from "@/assets/icons/cancel.svg";
 import Icon from "@/components/commons/icons";
 import { useDebounce } from "@/hooks/use-debounce";
-import { useSearchStore } from "@/stores/useSearchStore";
+import { useSearchStore } from "@/stores/use-search.store";
 
 export type SearchBarProps = {
   className?: string;

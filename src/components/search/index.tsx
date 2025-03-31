@@ -1,7 +1,7 @@
 "use client";
 
+import { useSearchStore } from "@/stores/use-search.store";
 import { useEffect } from "react";
-import { useSearchStore } from "@/stores/useSearchStore";
 import SearchRecommend from "./recommend";
 import SearchResult from "./result";
 

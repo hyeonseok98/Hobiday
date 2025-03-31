@@ -4,7 +4,7 @@ import CommentCard from "@/components/comment";
 import LoadingSpinner from "@/components/commons/spinner";
 import Toast from "@/components/commons/toast";
 import { useAddCommentMutation, useAllCommentQuery } from "@/hooks/comment/use-comment-query";
-import { useUserStore } from "@/stores/useUserStore";
+import { useUserStore } from "@/stores";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 

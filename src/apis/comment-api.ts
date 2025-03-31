@@ -1,7 +1,7 @@
-import { handleApiError } from "@/utils/api-error/error-handler";
+import { CommentData, CommentResponse } from "@/types/comment";
+import { handleApiError } from "@/utils/api-error";
 import { apiClient } from ".";
 import { ENDPOINTS } from "./end-points";
-import { CommentData, CommentResponse } from "@/types/comment";
 
 /**
  * @param feedId - 피드 ID

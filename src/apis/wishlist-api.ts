@@ -1,5 +1,5 @@
 import { WishlistResponse } from "@/types/wishlist/server";
-import { handleApiError } from "@/utils/api-error/error-handler";
+import { handleApiError } from "@/utils/api-error";
 import { apiClient } from ".";
 import { ENDPOINTS } from "./end-points";
 

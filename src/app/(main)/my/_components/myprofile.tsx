@@ -1,7 +1,10 @@
 "use client";
 
 import LoadingSpinner from "@/components/commons/spinner";
-import { useUserStore } from "@/stores/useUserStore";
+import { useAllFeedsByProfileIdQuery } from "@/hooks/feed/use-feed-query";
+import { useGetMyProfile } from "@/hooks/user/use-profile-update";
+import { useUserStore } from "@/stores";
+import { FeedThumbnail } from "@/types/feed";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import NoFeedSection from "./no-feed";
@@ -10,9 +13,6 @@ import ProfileGenres from "./profile-genres";
 import ProfileImage from "./profile-image";
 import ProfileName from "./profile-name";
 import ProfileStats from "./profile-stats";
-import { FeedThumbnail } from "@/types/feed";
-import { useGetMyProfile } from "@/hooks/user/use-profile-update";
-import { useAllFeedsByProfileIdQuery } from "@/hooks/feed/use-feed-query";
 
 export default function MyProfilePage() {
   const user = useUserStore((state) => state.user);

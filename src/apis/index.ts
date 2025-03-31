@@ -1,4 +1,4 @@
-import { handleApiError } from "@/utils/api-error/error-handler";
+import { handleApiError } from "@/utils/api-error";
 import { removeAuthTokens } from "@/utils/remove-auth-token";
 import axios from "axios";
 

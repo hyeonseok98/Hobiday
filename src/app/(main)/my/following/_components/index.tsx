@@ -4,7 +4,7 @@ import LoadingSpinner from "@/components/commons/spinner";
 import Toast from "@/components/commons/toast";
 import UserFollowCard from "@/components/follow";
 import { useFollowingList } from "@/hooks/user/use-profile-update";
-import { useUserStore } from "@/stores/useUserStore";
+import { useUserStore } from "@/stores";
 import { useState } from "react";
 
 interface FollowingUser {

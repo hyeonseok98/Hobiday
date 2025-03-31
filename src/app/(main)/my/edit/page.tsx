@@ -3,19 +3,19 @@
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import Icon from "@/components/commons/icons";
 import LoadingSpinner from "@/components/commons/spinner";
+import Toast from "@/components/commons/toast";
+import { PROFILE_KEYS } from "@/hooks/queries";
 import useProfileImageUpload from "@/hooks/user/use-profile-image-upload";
+import { useUpdateProfileMutation } from "@/hooks/user/use-profile-update";
 import cn from "@/lib/tailwind-cn";
-import { useUserStore } from "@/stores/useUserStore";
+import { useUserStore } from "@/stores";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import EditProfileGenres from "./_components/edit-genres";
 import EditProfileImage from "./_components/edit-image";
 import EditProfileIntroduction from "./_components/edit-introduction";
 import EditProfileName from "./_components/edit-name";
-import { useUpdateProfileMutation } from "@/hooks/user/use-profile-update";
-import { useQueryClient } from "@tanstack/react-query";
-import { PROFILE_KEYS } from "@/hooks/queries";
-import Toast from "@/components/commons/toast";
 
 export default function ProfileEditPage() {
   const { user } = useUserStore();

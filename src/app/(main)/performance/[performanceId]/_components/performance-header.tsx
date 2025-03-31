@@ -1,7 +1,7 @@
 import { CalendarMonth, Location } from "@/assets/svgr-icons";
 import FeedGradation from "@/assets/svgr-icons/FeedsGradation";
-import LikeGradientDefault from "@/assets/svgr-icons/like-gradient-default";
-import LikeGradientPressed from "@/assets/svgr-icons/like-gradient-pressed";
+import LikeGradientDefault from "@/assets/svgr-icons/LikeGradientDefault";
+import LikeGradientPressed from "@/assets/svgr-icons/LikeGradientPressed";
 import Chip from "@/components/commons/chip";
 import Gap from "@/components/commons/gap";
 import Icon from "@/components/commons/icons";
@@ -44,15 +44,15 @@ export default function PerformanceDetailHeader({ performance }: { performance: 
         <Icon size={16} className="mr-1">
           <Location width={9.29} height={13} className="fill-black" />
         </Icon>
-        <h3 className="text-textColor text-sm">{location}</h3>
+        <h2 className="text-textColor text-sm">{location}</h2>
       </div>
       <div className="flex items-center">
         <Icon size={16} className="mr-1">
           <CalendarMonth width={12} height={13} className="fill-black" />
         </Icon>
-        <h3 className="text-textColor text-sm">
+        <h2 className="text-textColor text-sm">
           {dateStart} - {dateEnd}
-        </h3>
+        </h2>
       </div>
 
       <Gap vertical size={16} />

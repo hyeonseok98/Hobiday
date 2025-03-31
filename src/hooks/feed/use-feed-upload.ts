@@ -1,54 +1,78 @@
-import axios from "axios";
-import { useState } from "react";
+import { createFeed, updateFeed } from "@/apis/feed-api";
+import { UploadFeed } from "./../../types/feed/index";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { FEED_KEYS } from "../queries";
 
-const useFeedRegistration = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export const useFeedRegistrationMutation = () => {
+  const queryClient = useQueryClient();
 
-  const getAccessToken = (): string | null => {
-    return localStorage.getItem("accessToken");
-  };
+  return useMutation({
+    mutationFn: ({ data }: { data: UploadFeed }) => {
+      return createFeed({ data });
+    },
 
-  const registerFeed = async (payload: {
-    performId: string;
-    content: string;
-    topic: string;
-    hashTags: string[];
-    fileUrls: string[];
-  }) => {
-    setIsLoading(true);
-    try {
-      const accessToken = getAccessToken();
-      if (!accessToken) {
-        throw new Error("Access token not found");
+    onMutate: async (payload) => {
+      // 기존 쿼리 취소 → 낙관적 업데이트 충돌 방지
+      await queryClient.cancelQueries({ queryKey: [...FEED_KEYS.all] });
+
+      // 이전 데이터 백업
+      const prevFeedData = queryClient.getQueryData<UploadFeed[]>([...FEED_KEYS.all]);
+
+      // 낙관적 업데이트
+      if (prevFeedData) {
+        queryClient.setQueryData<UploadFeed[]>([...FEED_KEYS.all], [...prevFeedData, payload.data]);
       }
-      console.log(payload);
-      const { data } = await axios.post(
-        "/api/feeds",
-        {
-          performId: payload.performId,
-          content: payload.content,
-          topic: payload.topic,
-          fileUrls: payload.fileUrls,
-          hashTags: payload.hashTags,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
 
-      return data;
-    } catch (err: any) {
-      setError(err.message);
-      throw new Error(err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      return { prevFeedData };
+    },
 
-  return { registerFeed, isLoading, error };
+    // 에러 발생 시 롤백
+    onError: (error, payload, context) => {
+      if (context?.prevFeedData) {
+        queryClient.setQueryData<UploadFeed[]>([...FEED_KEYS.all], context.prevFeedData);
+      }
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: FEED_KEYS.all });
+    },
+  });
 };
 
-export default useFeedRegistration;
+export const useFeedUpdateMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (params: { feedId: number; data: UploadFeed }) => {
+      const response = await updateFeed(params);
+      return response;
+    },
+    onMutate: async ({ feedId, data }) => {
+      // 기존 쿼리 취소 → 낙관적 업데이트 충돌 방지
+      await queryClient.cancelQueries({ queryKey: [...FEED_KEYS.all] });
+
+      // 이전 데이터 백업
+      const prevFeedData = queryClient.getQueryData<UploadFeed[]>([...FEED_KEYS.all]);
+
+      // 낙관적 업데이트
+      if (prevFeedData) {
+        queryClient.setQueryData<UploadFeed[]>([...FEED_KEYS.all], (prevFeedData) =>
+          prevFeedData?.map((feed) => (feedId === feedId ? { ...feed, ...data } : feed)),
+        );
+      }
+
+      return { prevFeedData };
+    },
+
+    // 에러 발생 시 롤백
+    onError: (error, { feedId }, context) => {
+      if (context?.prevFeedData) {
+        queryClient.setQueryData<UploadFeed[]>([...FEED_KEYS.all], context.prevFeedData);
+      }
+    },
+
+    onSettled: (data, error, { feedId }) => {
+      queryClient.invalidateQueries({ queryKey: [...FEED_KEYS.all] });
+    },
+  });
+};

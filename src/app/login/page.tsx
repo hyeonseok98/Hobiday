@@ -3,7 +3,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { KakaoInitializer, LoginButton, OnboardingSwiper, Policies } from "./_component";
 
-export default function LoginPage(): JSX.Element {
+export default function LoginPage() {
   return (
     <div className="relative flex flex-col items-center justify-center w-full h-dvh text-white overflow-hidden">
       {/* Kakao SDK 초기화 */}

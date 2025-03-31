@@ -2,7 +2,7 @@ import Button from "@/components/commons/button";
 import Chip from "@/components/commons/chip";
 import Gap from "@/components/commons/gap";
 import StepLayout from "@/components/layout/step-layout";
-import { PERFORMANCE_CATEGORY } from "@/constants/category";
+import { TEMP_PERFORMANCE_CATEGORY } from "@/constants/category";
 import { useOnboardingStore } from "@/stores/use-onboarding.store";
 import { useState } from "react";
 
@@ -14,13 +14,13 @@ export default function CategoryStep({ onNext }: CategoryStepProps) {
   const { categories, setCategories } = useOnboardingStore();
   const [selectedCategories, setSelectedCategories] = useState<string[]>(categories);
 
-  const isAllSelected = selectedCategories.length === PERFORMANCE_CATEGORY.length;
+  const isAllSelected = selectedCategories.length === TEMP_PERFORMANCE_CATEGORY.length;
 
   const handleAllClick = () => {
     if (isAllSelected) {
       setSelectedCategories([]);
     } else {
-      setSelectedCategories(PERFORMANCE_CATEGORY.map((category) => category.name));
+      setSelectedCategories(TEMP_PERFORMANCE_CATEGORY.map((category) => category.name));
     }
   };
 
@@ -51,7 +51,7 @@ export default function CategoryStep({ onNext }: CategoryStepProps) {
             onClick={handleAllClick}
             className="col-span-3 text-center"
           />
-          {PERFORMANCE_CATEGORY.map((category) => (
+          {TEMP_PERFORMANCE_CATEGORY.map((category) => (
             <Chip
               key={category.id}
               label={category.name}

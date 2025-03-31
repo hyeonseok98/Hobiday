@@ -1,5 +1,7 @@
+import { saveImageFile, uploadFileToPresignedUrl } from "@/apis/feed-api";
 import axios from "axios";
 import { useState } from "react";
+import { prefetchDNS } from "react-dom";
 
 interface PresignedURLResponse {
   presignedUrl: string;
@@ -35,18 +37,13 @@ const useImageUpload = (): UseImageUploadReturn => {
 
       for (const file of files) {
         // 1. Presigned URL 요청
-        const { data } = await axios.post(
-          "/api/v1/file",
-          {
-            prefix: file.type,
-            fileName: file.name,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          },
-        );
+        const imageData = {
+          prefix: file.type,
+          fileName: file.name,
+        };
+
+        const data = await saveImageFile(imageData);
+
         console.log("file.type:", file.type);
         console.log("file.name", file.name);
         const { url: presignedUrl, filePath: fileUrl } = data;
@@ -57,11 +54,7 @@ const useImageUpload = (): UseImageUploadReturn => {
         }
 
         // 2. Presigned URL로 파일 업로드
-        await axios.put(presignedUrl, file, {
-          headers: {
-            "Content-Type": file.type,
-          },
-        });
+        await uploadFileToPresignedUrl(presignedUrl, file);
 
         uploadedUrls.push(fileUrl);
       }

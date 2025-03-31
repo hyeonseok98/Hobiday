@@ -1,7 +1,9 @@
+"use client";
+
 import cn from "@/lib/tailwind-cn";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 type CardProps = {
   children: React.ReactNode;
@@ -20,12 +22,22 @@ export default function Card({ children, href, className }: CardProps) {
 type CardImageProps = {
   src: string;
   alt: string;
-  width: string;
-  height: string;
+  size: "sm";
   className?: string;
 };
 
-function CardImage({ src, alt, width, height, className }: CardImageProps) {
+const SIZE_VARIANTS = {
+  sm: {
+    width: "w-[88px]",
+    height: "h-[88px]",
+    sizes: "(max-width: 768px) 88px",
+  },
+} as const;
+
+function CardImage({ src, alt, size = "sm", className }: CardImageProps) {
+  const { width, height, sizes } = SIZE_VARIANTS[size];
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
     <div
       className={cn(
@@ -33,7 +45,16 @@ function CardImage({ src, alt, width, height, className }: CardImageProps) {
         className,
       )}
     >
-      <Image src={src} alt={alt} fill className="object-contain" quality={80} />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        quality={80}
+        sizes={sizes}
+        className={cn("object-contain transition-opacity duration-500", isLoaded ? "opacity-100" : "opacity-0")}
+        onLoad={() => setIsLoaded(true)}
+        priority
+      />
     </div>
   );
 }

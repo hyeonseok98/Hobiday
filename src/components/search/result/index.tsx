@@ -9,7 +9,7 @@ import LoadingSpinner from "@/components/commons/spinner";
 import Toast from "@/components/commons/toast";
 import { SectionLayout } from "@/components/layout";
 import { useSearchPerformances } from "@/hooks";
-import { useSearchStore } from "@/stores/useSearchStore";
+import { useSearchStore } from "@/stores/use-search.store";
 import { useState } from "react";
 
 export default function SearchResult() {
@@ -37,12 +37,7 @@ export default function SearchResult() {
         <SectionLayout className="flex flex-col py-4 gap-3">
           {performances.map((performance) => (
             <Card href={`/performance/${performance.performanceId}`} key={performance.performanceId} className="w-full">
-              <Card.Image
-                src={performance.posterUrl}
-                alt={performance.performanceName}
-                width="w-[88px]"
-                height="h-[88px]"
-              />
+              <Card.Image src={performance.posterUrl} alt={performance.performanceName} size="sm" />
               <Card.Content>
                 <Card.Category>
                   <Chip label={performance.genre} state="hashTag" />

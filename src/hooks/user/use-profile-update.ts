@@ -1,5 +1,3 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { FOLLOW_KEYS, PROFILE_KEYS } from "../queries";
 import {
   followToggle,
   getFollowerById,
@@ -8,9 +6,11 @@ import {
   getProfileById,
   updateMyProfile,
 } from "@/apis/user-api";
-import { Profile, useUserStore } from "@/stores/useUserStore";
-import React from "react";
+import { useUserStore } from "@/stores";
 import { FollowProfile } from "@/types/user";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import React from "react";
+import { FOLLOW_KEYS, PROFILE_KEYS } from "../queries";
 
 export const useUpdateProfileMutation = () => {
   const queryClient = useQueryClient();

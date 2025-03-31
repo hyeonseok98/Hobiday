@@ -13,8 +13,6 @@ export default function CompleteStep() {
 
   const { mutate } = useProfileRegistration();
 
-  console.log(nickname, categories);
-
   useEffect(() => {
     if (!nickname || categories.length === 0) return;
 

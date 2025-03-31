@@ -4,7 +4,7 @@ import BottomSheet from "@/components/bottom-sheet";
 import Chip from "@/components/commons/chip";
 import Icon from "@/components/commons/icons";
 import { useBottomSheet } from "@/contexts";
-import useUploadTextStore from "@/stores/useUploadTextStore";
+import useUploadTextStore from "@/stores/use-upload-text.store";
 import { useState } from "react";
 import ArrowForward from "src/assets/icons/arrow-forward.svg";
 import CommentText from "src/assets/icons/comment-text.svg";

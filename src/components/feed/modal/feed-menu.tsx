@@ -4,7 +4,7 @@ import Icon from "@/components/commons/icons";
 import Toast from "@/components/commons/toast";
 import Modal from "@/components/modal";
 import { useModal } from "@/contexts";
-import useUploadTextStore from "@/stores/useUploadTextStore";
+import useUploadTextStore from "@/stores/use-upload-text.store";
 import { AllFeeds } from "@/types/feed/feed.type";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

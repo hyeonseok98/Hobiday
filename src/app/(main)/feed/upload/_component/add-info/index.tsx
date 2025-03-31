@@ -1,7 +1,7 @@
 import { Location } from "@/assets/svgr-icons";
 import Icon from "@/components/commons/icons";
 import SearchCard from "@/components/search/card";
-import useUploadTextStore from "@/stores/useUploadTextStore";
+import useUploadTextStore from "@/stores/use-upload-text.store";
 import Link from "next/link";
 import ArrowBottom from "src/assets/icons/arrow-bottom.svg";
 import PlusCircle from "src/assets/icons/plus-circle.svg";

@@ -19,7 +19,7 @@ export default function ProfileStats({ postCount, followerCount, followingCount 
   return (
     <>
       {/* 통계 정보 */}
-      <div className="flex justify-center items-center mb-6 space-x-10">
+      <div className="flex justify-center items-center w-full py-4 space-x-10">
         <div className="text-center">
           <h3 className="text-base font-semibold text-gray-500">포스트</h3>
           <h3>{postCount}</h3>

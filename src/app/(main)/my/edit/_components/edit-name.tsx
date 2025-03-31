@@ -1,18 +1,14 @@
-import { updateMyProfile } from "@/apis/user-api";
 import SvgPencil from "@/assets/svgr-icons/Pencil";
 import BottomSheet from "@/components/bottom-sheet";
 import Button from "@/components/commons/button";
 import TextField from "@/components/commons/text-field";
 import Toast from "@/components/commons/toast";
 import { useBottomSheet } from "@/contexts";
-import { PROFILE_KEYS } from "@/hooks/queries";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useCheckNickname } from "@/hooks/user/use-profile-registration";
 import { useUpdateProfileMutation } from "@/hooks/user/use-profile-update";
 import { useOnboardingStore } from "@/stores/use-onboarding.store";
 import { validateNickname } from "@/utils/validate-nickname";
-import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
 interface ProfileNameProps {

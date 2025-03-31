@@ -1,6 +1,6 @@
 "use client";
 
-import LikeGradientPressed from "@/assets/svgr-icons/like-gradient-pressed";
+import LikeGradientPressed from "@/assets/svgr-icons/LikeGradientPressed";
 import Icon from "@/components/commons/icons";
 import LoadingSpinner from "@/components/commons/spinner";
 import Toast from "@/components/commons/toast";

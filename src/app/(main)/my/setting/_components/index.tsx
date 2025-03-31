@@ -3,7 +3,7 @@
 import { userLogout, userSignOut } from "@/apis/user-api";
 import SvgArrowForward from "@/assets/svgr-icons/ArrowForward";
 import Toast from "@/components/commons/toast";
-import { useUserStore } from "@/stores/useUserStore";
+import { useUserStore } from "@/stores";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

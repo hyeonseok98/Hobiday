@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
-import { useSearchStore } from "@/stores/useSearchStore";
 import AddInfoSearchResult from "@/components/search/add-info/result";
+import { useSearchStore } from "@/stores/use-search.store";
+import { useEffect } from "react";
 
 export default function AddInfoSearchPages() {
   const { searchQuery, setSearchQuery } = useSearchStore();

@@ -1,18 +1,16 @@
 "use client";
 
-import { fetchAllFeedById } from "@/apis/feed-api";
-import { getProfileById } from "@/apis/user-api";
-import React, { useEffect, useState } from "react";
+import LoadingSpinner from "@/components/commons/spinner";
+import { useAllFeedsByProfileIdQuery } from "@/hooks/feed/use-feed-query";
+import { useFollowingList, useFollowToggleMutation, useGetProfileById } from "@/hooks/user/use-profile-update";
+import { useUserStore } from "@/stores";
+import { FeedThumbnail } from "@/types/feed";
+import { useEffect, useState } from "react";
+import ProfileFeed from "../../_components/profile-feed";
+import ProfileGenres from "../../_components/profile-genres";
 import ProfileImage from "../../_components/profile-image";
 import ProfileName from "../../_components/profile-name";
-import ProfileGenres from "../../_components/profile-genres";
 import ProfileStats from "../../_components/profile-stats";
-import LoadingSpinner from "@/components/commons/spinner";
-import ProfileFeed from "../../_components/profile-feed";
-import { FeedThumbnail } from "@/types/feed";
-import { useFollowingList, useFollowToggleMutation, useGetProfileById } from "@/hooks/user/use-profile-update";
-import { useAllFeedsByProfileIdQuery } from "@/hooks/feed/use-feed-query";
-import { useUserStore } from "@/stores/useUserStore";
 
 export interface Profile {
   profileId: number;
@@ -79,9 +77,10 @@ export default function ProfileIdInfo({ profileId: profileId }: { profileId: num
         <LoadingSpinner size={60} />
       </div>
     );
+
   return (
     <div className="bg-flat min-h-screen flex flex-col items-center">
-      <div className="bg-white w-full p-4 shadow-md">
+      <div className="bg-white w-full px-4 shadow-md">
         <ProfileImage profileImageUrl={userInfo.profileImageUrl} />
         <ProfileName profileNickname={userInfo.profileNickname} profileIntroduction={userInfo.profileIntroduction} />
         <ProfileGenres profileGenres={userInfo.profileGenres} />
@@ -92,16 +91,18 @@ export default function ProfileIdInfo({ profileId: profileId }: { profileId: num
         />
 
         {/* 버튼 */}
-        <button
-          className={`text-lg w-[398px] h-[40px] rounded-md
-              flex items-center justify-center bg-gradient-to-r from-secondary to-primary to-80% text-white ${
+        <div className="flex items-center justify-center w-full py-4">
+          <button
+            className={`text-lg w-[398px] h-[40px] rounded-md
+              bg-gradient-to-r from-secondary to-primary to-80% text-white ${
                 followMutation.isPending ? "cursor-not-allowed" : ""
               }`}
-          onClick={handleFollowToggle}
-          disabled={followMutation.isPending} // 로딩 중 버튼 비활성화
-        >
-          {followMutation.isPending ? "처리 중..." : isFollowing ? "팔로잉" : "팔로우"}
-        </button>
+            onClick={handleFollowToggle}
+            disabled={followMutation.isPending} // 로딩 중 버튼 비활성화
+          >
+            {followMutation.isPending ? "처리 중..." : isFollowing ? "팔로잉" : "팔로우"}
+          </button>
+        </div>
       </div>
 
       {/* 하단 섹션 */}

@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { feedKeys } from "../queries/feed-keys";
 import {
   fetchAllFeedById,
   fetchAllFeedByLatest,
@@ -13,7 +12,7 @@ import { AllFeeds } from "@/types/feed/feed.type";
 // 최신순 피드 조회
 export const useLatestFeedsQuery = (enabled: boolean) => {
   return useQuery({
-    queryKey: feedKeys.latest(),
+    queryKey: FEED_KEYS.latest(),
     queryFn: async () => {
       const data = await fetchAllFeedByLatest();
       return data;
@@ -26,7 +25,7 @@ export const useLatestFeedsQuery = (enabled: boolean) => {
 // 인기순 피드 조회
 export const usePopularFeedsQuery = (enabled: boolean) => {
   return useQuery({
-    queryKey: feedKeys.popular(),
+    queryKey: FEED_KEYS.popular(),
     queryFn: async () => {
       const data = await fetchAllFeedByPopular();
       return data;

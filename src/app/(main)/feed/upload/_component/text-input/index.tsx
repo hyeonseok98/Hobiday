@@ -1,4 +1,4 @@
-import useUploadTextStore from "@/stores/useUploadTextStore";
+import useUploadTextStore from "@/stores/use-upload-text.store";
 import { useRef } from "react";
 
 export default function TextInput() {

@@ -2,14 +2,14 @@
 
 import Gap from "@/components/commons/gap";
 import LoadingSpinner from "@/components/commons/spinner";
+import Toast from "@/components/commons/toast";
 import { useFacilityInfo, usePerformanceDetailAll } from "@/hooks";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 import BackGroundPoster from "./background-poster";
 import PerformanceDetailHeader from "./performance-header";
 import PerformanceInfo from "./performance-info";
-import Toast from "@/components/commons/toast";
-import { useState } from "react";
 
 export default function PerformanceDetail() {
   const params = useParams();
@@ -40,7 +40,17 @@ export default function PerformanceDetail() {
   const PERFORMANCE_DEFAULT_INFO = [
     {
       title: "공연 상세내용",
-      children: <Image src={data.storyImageUrl} alt={data.name} width={380} height={450} />,
+      children: (
+        <Image
+          src={data.storyImageUrl}
+          alt={data.name}
+          width={380}
+          height={450}
+          priority
+          loading="eager"
+          fetchPriority="high"
+        />
+      ),
     },
     { title: "공연 출연진", content: data.cast, placeholder: "공연자 정보가 없습니다." },
     { title: "티켓 가격", content: data.ticket.price, placeholder: "티켓 가격 정보가 없습니다." },

@@ -11,8 +11,22 @@ export const TAB_CATEGORY = [
   { id: 9, name: "대중무용" },
 ];
 
+// !!백엔드 수정 전 임시 사용!!
+export const TEMP_TAB_CATEGORY = [
+  { id: 0, name: "전체" },
+  { id: 1, name: "연극" },
+  { id: 2, name: "뮤지컬" },
+  { id: 4, name: "대중음악" },
+  { id: 6, name: "무용" },
+  { id: 8, name: "복합" },
+  { id: 9, name: "대중무용" },
+];
+
 // 전체를 제외한 카테고리
 export const PERFORMANCE_CATEGORY = TAB_CATEGORY.filter((category) => category.name !== "전체");
+
+// !!백엔드 수정 전 임시 사용!!
+export const TEMP_PERFORMANCE_CATEGORY = TEMP_TAB_CATEGORY.filter((category) => category.name !== "전체");
 
 export const FEED_CATEGORY = [
   "연극",

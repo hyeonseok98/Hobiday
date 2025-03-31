@@ -59,6 +59,7 @@ const config: Config = {
         navbar: "10",
         bottomSheet: "30",
         modal: "40",
+        modalBackgroud: "30",
       },
       keyframes: {
         "fade-in-up": {

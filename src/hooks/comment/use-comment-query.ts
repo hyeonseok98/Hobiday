@@ -54,8 +54,8 @@ export const useUpdateCommentMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (parms: { commentId: number; data: CommentData }) => {
-      const response = await updateComment(parms);
+    mutationFn: async (params: { commentId: number; data: CommentData }) => {
+      const response = await updateComment(params);
       return response;
     },
     onMutate: async ({ commentId, data }) => {

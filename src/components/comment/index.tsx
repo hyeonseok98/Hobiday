@@ -1,9 +1,9 @@
 import { useModal } from "@/contexts";
+import { useDeleteCommentMutation, useUpdateCommentMutation } from "@/hooks/comment/use-comment-query";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import Modal from "../modal";
-import { useDeleteCommentMutation, useUpdateCommentMutation } from "@/hooks/comment/use-comment-query";
 import Toast from "../commons/toast";
+import Modal from "../modal";
 
 interface CommentCardProps {
   id: number;
@@ -78,7 +78,7 @@ export default function CommentCard({ id, contents, profileName, profileImageUrl
   return (
     <div className="p-4">
       {/* 유저 프로필 */}
-      <div className="flex items-center mb-3">
+      <div className="flex items-center mb-2">
         <Image
           src={profileImageUrl}
           alt={`${profileName} profile`}

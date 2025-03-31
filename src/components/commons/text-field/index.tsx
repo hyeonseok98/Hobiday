@@ -40,8 +40,9 @@ TextField.Input = forwardRef<
   return (
     <div className="relative w-full">
       <input
-        ref={ref}
         id={id}
+        ref={ref}
+        value={value ?? ""}
         maxLength={maxLength}
         className={cn("w-full border-b-2 px-1 py-2 font-semibold focus:outline-none", inputStyle[status], className)}
         aria-labelledby={labelId} // label과 연결

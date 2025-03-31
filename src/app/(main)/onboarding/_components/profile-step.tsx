@@ -14,18 +14,18 @@ type ProfileStepProps = {
 
 export default function ProfileStep({ onNext }: ProfileStepProps) {
   const { nickname, setNickname } = useOnboardingStore();
-  const [inputValue, setInputValue] = useState(nickname);
-  const debouncedValue = useDebounce(inputValue.trim(), 600);
+  const debouncedNickname = useDebounce(nickname, 600);
 
   const [status, setStatus] = useState<"default" | "success" | "error">("default");
   const [message, setMessage] = useState("");
 
-  const { data, isLoading } = useCheckNickname(debouncedValue);
+  const { data, isLoading } = useCheckNickname(debouncedNickname);
 
   useEffect(() => {
-    if (!debouncedValue) return;
+    const trimmedNickname = debouncedNickname.trim();
+    if (!trimmedNickname) return;
 
-    const { isValid, message } = validateNickname(inputValue);
+    const { isValid, message } = validateNickname(trimmedNickname);
     if (!isValid) {
       setStatus("error");
       setMessage(message);
@@ -42,12 +42,10 @@ export default function ProfileStep({ onNext }: ProfileStepProps) {
       setStatus("error");
       setMessage("이미 사용 중인 닉네임입니다.");
     }
-  }, [debouncedValue, data, isLoading, inputValue]);
+  }, [debouncedNickname, data, isLoading]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputValue(value);
-    setNickname(value);
+    setNickname(e.target.value);
   };
 
   return (
@@ -62,7 +60,7 @@ export default function ProfileStep({ onNext }: ProfileStepProps) {
           <TextField.Label status={status}>닉네임</TextField.Label>
           <TextField.Input
             placeholder="닉네임을 입력하세요"
-            value={inputValue}
+            value={nickname}
             onChange={handleChange}
             status={status}
             maxLength={15}
@@ -70,7 +68,7 @@ export default function ProfileStep({ onNext }: ProfileStepProps) {
           <TextField.HelperText status={status}>{message}</TextField.HelperText>
         </TextField>
       </StepLayout.Content>
-
+      <input />
       <StepLayout.Footer>
         <p className="text-center text-sm text-gray-600 mb-5">닉네임은 나중에 다시 수정할 수 있어요!</p>
         <Button
@@ -78,7 +76,7 @@ export default function ProfileStep({ onNext }: ProfileStepProps) {
           size="lg"
           fullWidth
           disabled={status !== "success"}
-          onClick={status === "success" ? () => onNext(inputValue) : undefined}
+          onClick={status === "success" ? () => onNext(nickname) : undefined}
         >
           다음
         </Button>

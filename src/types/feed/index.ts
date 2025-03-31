@@ -26,7 +26,7 @@ export interface Feed {
 export interface UploadFeed {
   performId: string;
   content: string;
-  category: string;
+  topic: string;
   hashTags: string[];
   fileUrls: string[];
 }

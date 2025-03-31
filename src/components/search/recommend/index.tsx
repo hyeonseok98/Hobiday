@@ -1,6 +1,6 @@
 import LoadingSpinner from "@/components/commons/spinner";
 import { useRecommendedPerformances } from "@/hooks";
-import { useSearchStore } from "@/stores/useSearchStore";
+import { useSearchStore } from "@/stores/use-search.store";
 import { ClientRecommendedSearchWords } from "@/types/performance/client";
 
 export default function SearchRecommend() {
