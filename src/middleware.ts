@@ -7,6 +7,7 @@ export function middleware(request: NextRequest) {
 
   const isLoginPage = pathname.startsWith("/login");
   const isOnboardingPage = pathname.startsWith("/onboarding");
+  const isRegistrationFormPage = pathname.startsWith("/registration-form");
 
   // playwright 온보딩 E2E 테스트를 위해 임시 우회(카카오 로그인이 아닌 우회 로그인)
   const e2eBypass = request.cookies.get("e2e-test-skip-auth");
@@ -31,6 +32,10 @@ export function middleware(request: NextRequest) {
   }
   // CASE2. 비로그인 유저
   else {
+    if (isRegistrationFormPage) {
+      return NextResponse.next();
+    }
+
     // 비로그인 유저는 login 외 다른 페이지 접근 불가
     if (!isLoginPage) {
       return NextResponse.redirect(new URL("/login", request.url));

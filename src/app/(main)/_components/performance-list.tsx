@@ -2,6 +2,7 @@
 
 import Location from "@/assets/icons/location.svg";
 import Card from "@/components/card";
+import SkeletonCard from "@/components/card/card.skeleton";
 import Chip from "@/components/commons/chip";
 import LoadingSpinner from "@/components/commons/spinner";
 import Toast from "@/components/commons/toast";
@@ -30,6 +31,7 @@ export default function PerformanceList() {
     hasNextPage,
     isPending,
     isError,
+    isFetching,
     isFetchingNextPage,
   } = usePerformancesInfiniteQuery(selectedTab, genre);
 
@@ -56,7 +58,8 @@ export default function PerformanceList() {
     setSelectedTab(category.id);
   };
 
-  if (isProfileLoading || (isPending && performanceLists.length === 0)) {
+  // 초기 데이터 로드시 로딩 스피너 표시
+  if (isProfileLoading) {
     return (
       <div className="flex justify-center items-center h-[300px]">
         <LoadingSpinner size={40} />
@@ -71,15 +74,12 @@ export default function PerformanceList() {
 
   return (
     <>
-      <Tabs
-        categories={TAB_CATEGORY}
-        gap={12}
-        className="h-11 py-[6px]"
-        onTabClick={handleTabClick}
-        activeTab={selectedTab}
-      />
+      <Tabs categories={TAB_CATEGORY} gap={12} onTabClick={handleTabClick} activeTab={selectedTab} />
 
+      {/* 탭 이동시 CLS 방지 */}
       <SectionLayout className="flex flex-col py-4 gap-3">
+        {performanceLists.length === 0 && isPending && <SkeletonCard count={5} />}
+
         {performanceLists.map((performance) => (
           <Card key={performance.performanceId} href={`/performance/${performance.performanceId}`} className="w-full">
             <Card.Image src={performance.posterUrl} alt={performance.performanceName} size="sm" />
@@ -95,6 +95,10 @@ export default function PerformanceList() {
 
         <div ref={scrollRef} />
 
+        {/* 무한 스크롤 시 스켈레톤 적용 */}
+        {isFetching && performanceLists.length > 0 && <SkeletonCard count={3} />}
+
+        {/* 무한 스크롤 시 로딩 스피너 적용 */}
         {isFetchingNextPage && (
           <div className="flex justify-center items-center p-2">
             <LoadingSpinner size={40} />

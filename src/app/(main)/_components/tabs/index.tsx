@@ -48,25 +48,27 @@ export default function Tabs({ categories, gap = 12, onTabClick, activeTab = 0, 
   }, [activeTab]);
 
   return (
-    <Swiper
-      onSwiper={(swiper) => (swiperRef.current = swiper)}
-      slidesPerView="auto"
-      freeMode={true}
-      spaceBetween={gap}
-      slidesOffsetBefore={16}
-      slidesOffsetAfter={16}
-      className={cn("w-full cursor-pointer", className)}
-      preventInteractionOnTransition={true} // 부드러운 전환 유지
-    >
-      {categories.map((category, index) => (
-        <SwiperSlide key={category.id} className="!w-auto">
-          <Chip
-            label={category.name}
-            state={activeTab === category.id ? "selected" : "default"}
-            onClick={() => handleChipClick(category, index)}
-          />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <div className="h-11 py-[6px]">
+      <Swiper
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
+        slidesPerView="auto"
+        freeMode={true}
+        spaceBetween={gap}
+        slidesOffsetBefore={16}
+        slidesOffsetAfter={16}
+        className={cn("w-full cursor-pointer", className)}
+        preventInteractionOnTransition={true} // 부드러운 전환 유지
+      >
+        {categories.map((category, index) => (
+          <SwiperSlide key={category.id} className="!w-auto">
+            <Chip
+              label={category.name}
+              state={activeTab === category.id ? "selected" : "default"}
+              onClick={() => handleChipClick(category, index)}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 }

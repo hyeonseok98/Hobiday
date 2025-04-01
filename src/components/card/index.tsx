@@ -30,7 +30,7 @@ const SIZE_VARIANTS = {
   sm: {
     width: "w-[88px]",
     height: "h-[88px]",
-    sizes: "(max-width: 768px) 88px",
+    sizes: "88px",
   },
 } as const;
 
@@ -53,7 +53,6 @@ function CardImage({ src, alt, size = "sm", className }: CardImageProps) {
         sizes={sizes}
         className={cn("object-contain transition-opacity duration-500", isLoaded ? "opacity-100" : "opacity-0")}
         onLoad={() => setIsLoaded(true)}
-        priority
       />
     </div>
   );

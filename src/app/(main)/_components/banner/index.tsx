@@ -37,7 +37,6 @@ export default function AdBanner() {
                 loading={index === 0 ? "eager" : "lazy"}
                 quality={85}
               />
-              {index !== 0 && <div className="absolute inset-0 border-gray-200" />}
             </div>
           </SwiperSlide>
         ))}
